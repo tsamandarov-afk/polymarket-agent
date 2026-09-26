@@ -274,6 +274,17 @@
     </section>
   </div>
 
+  <section class="panel p-red">
+    <div class="ph"><span class="n">08</span>Защиты от обвала<span class="chip" style="color:var(--red)">БЭКТЕСТ С 2023 · $100 НА СТАВКУ</span></div>
+    <div class="pb">
+      <p class="muted" style="margin:0;font-size:10px;line-height:1.6">Главный риск стратегии — сильный обвал или разгон: она раз за разом ставит против движения, и сигнал загорается сразу по всем монетам (1–2 декабря 2025: −$4 500 за два дня). Здесь та же история, прогнанная с тремя защитами по отдельности и вместе. Нажмите на вариант, чтобы скрыть или показать его кривую.</p>
+      <div class="tabs" id="v-tabs"></div>
+      <canvas id="v-equity" style="width:100%;height:260px;display:block" aria-label="Кривые капитала вариантов защиты"></canvas>
+      <div class="heat-wrap"><table class="tbl" id="v-tbl" style="min-width:760px"></table></div>
+      <div class="legend"><span><b style="color:var(--ink)">2 монеты на свече</b> — если сигнал дали сразу несколько монет, берём две с самым сильным перекосом RSI.</span><span><b style="color:var(--ink)">Пауза</b> — после 3 проигрышей подряд час без ставок.</span><span><b style="color:var(--ink)">Тренд EMA 200</b> — ставка «вверх» только когда цена выше средней за 200 свечей, «вниз» — только ниже.</span></div>
+    </div>
+  </section>
+
   <div class="ledger-h">Семь монет · что видит агент<span>нажмите на монету — график покажет её сигналы</span></div>
   <div class="coins" id="coins"></div>
 
@@ -540,8 +551,45 @@ function render() {
   }).join('');
   $('r-chip').textContent = near ? `${near} У ПОРОГА` : 'ДО СИГНАЛА';
   coinsRender();
+  renderVariants();
   $('foot-l').textContent = `Срез агента: ${new Date(D.generated).toLocaleString('ru-RU')} · свечи Binance, рынки Polymarket`;
 }
+
+// ── 08 защиты от обвала
+const VCOL = { base: C.green, cap2: C.blue, pause: C.amber, trend: C.violet, cap2_pause: C.teal, all: '#FF8FB1' };
+const vHidden = new Set();
+function drawVariants() {
+  const V = D && D.bt && D.bt.variants; if (!V) return;
+  const { g, w, h } = fit($('v-equity')), padR = 58, padB = 18, top = 8;
+  const shown = V.filter((v) => !vHidden.has(v.key) && v.equity.length > 1);
+  if (!shown.length) return;
+  const all = shown.flatMap((v) => v.equity), t0 = Math.min(...all.map((p) => p[0])), t1 = Math.max(...all.map((p) => p[0]));
+  let lo = Math.min(D.bt.start, ...all.map((p) => p[1])), hi = Math.max(...all.map((p) => p[1])); const pd = (hi - lo) * 0.05; lo = Math.max(0, lo - pd); hi += pd;
+  const X = (t) => (t - t0) / (t1 - t0 || 1) * (w - padR), Y = (v) => top + (hi - v) / (hi - lo) * (h - padB - top);
+  for (let q = 0; q <= 4; q++) { const v = lo + (hi - lo) * q / 4, y = Y(v); g.strokeStyle = C.hair; g.setLineDash([2, 4]); g.beginPath(); g.moveTo(0, y); g.lineTo(w - padR, y); g.stroke(); g.setLineDash([]); g.fillStyle = C.faint; g.fillText('$' + (v / 1000).toFixed(0) + 'k', w - padR + 6, y + 3); }
+  for (let y = 2024; y <= new Date().getUTCFullYear(); y++) { const x = X(Date.UTC(y, 0, 1) / 1000); g.strokeStyle = C.line; g.beginPath(); g.moveTo(x, top); g.lineTo(x, h - padB); g.stroke(); g.fillStyle = C.muted; g.fillText(String(y), x + 4, h - 4); }
+  g.fillStyle = C.muted; g.fillText('2023', 4, h - 4);
+  shown.forEach((v) => {
+    g.beginPath(); v.equity.forEach(([t, b], i) => { i ? g.lineTo(X(t), Y(b)) : g.moveTo(X(t), Y(b)); });
+    g.strokeStyle = VCOL[v.key]; g.lineWidth = v.key === 'base' ? 1.8 : 1.3; g.stroke(); g.lineWidth = 1;
+    const [lt, lv] = v.equity[v.equity.length - 1]; g.fillStyle = VCOL[v.key]; g.beginPath(); g.arc(X(lt), Y(lv), 3, 0, Math.PI * 2); g.fill();
+  });
+}
+function renderVariants() {
+  const V = D && D.bt && D.bt.variants; if (!V) return;
+  $('v-tabs').innerHTML = V.map((v) => `<button class="tab" data-v="${v.key}" aria-pressed="${!vHidden.has(v.key)}" style="${vHidden.has(v.key) ? 'opacity:.45' : `border-color:${VCOL[v.key]};color:${VCOL[v.key]}`}">● ${v.name}</button>`).join('');
+  const best = (f, dir) => V.reduce((a, v) => (dir * f(v) > dir * f(a) ? v : a), V[0]).key;
+  const bTot = best((v) => v.total, 1), bDd = best((v) => v.max_dd, -1), bBe = best((v) => v.breakeven_price, 1), bPer = best((v) => v.per_bet, 1);
+  const mark = (k, b, s) => k === b ? `<b style="color:var(--ink)">${s}</b>` : s;
+  $('v-tbl').innerHTML = `<tr><th>вариант</th><th>ставок</th><th>угадано</th><th>итог при 51¢</th><th>на ставку</th><th>макс. просадка</th><th>худший месяц</th><th>минус-мес.</th><th>выгодно до</th><th>итог при 55¢</th></tr>` +
+    V.map((v) => `<tr><td><span style="color:${VCOL[v.key]}">●</span> ${v.name}</td><td>${v.trades.toLocaleString('ru-RU')}</td><td>${v.wr.toFixed(1)}%</td>
+      <td class="pos" title="${Object.entries(v.years).map(([y, p]) => y + ': ' + money(p)).join(' · ')}">${mark(v.key, bTot, money(v.total))}</td>
+      <td>${mark(v.key, bPer, money(v.per_bet, 2))}</td><td class="neg">${mark(v.key, bDd, '−' + money(v.max_dd))}</td>
+      <td class="${v.worst_month < 0 ? 'neg' : 'pos'}">${money(v.worst_month)}</td><td>${v.neg_months} из ${v.months}</td>
+      <td>${mark(v.key, bBe, v.breakeven_price + '¢')}</td><td class="${v.sens['0.55'] >= 0 ? 'pos' : 'neg'}">${money(v.sens['0.55'])}</td></tr>`).join('');
+  drawVariants();
+}
+$('v-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; const k = b.dataset.v; vHidden.has(k) ? vHidden.delete(k) : vHidden.add(k); renderVariants(); });
 
 // ── карточки монет
 function coinsRender() {
@@ -596,8 +644,8 @@ setInterval(loadAll, 20000);
 function loop(t) { drawChart(t); if (!reduce) requestAnimationFrame(loop); }
 requestAnimationFrame(loop);
 if (reduce) setInterval(() => drawChart(performance.now() + 5000), 2000);
-addEventListener('resize', () => { chartCtx = fit($('chart')); if (D) { drawBtEquity(); drawLiveEquity(); } });
-document.fonts && document.fonts.ready.then(() => { chartCtx = fit($('chart')); if (D) { drawBtEquity(); drawLiveEquity(); } });
+addEventListener('resize', () => { chartCtx = fit($('chart')); if (D) { drawBtEquity(); drawLiveEquity(); drawVariants(); } });
+document.fonts && document.fonts.ready.then(() => { chartCtx = fit($('chart')); if (D) { drawBtEquity(); drawLiveEquity(); drawVariants(); } });
 </script>
 </body>
 </html>
