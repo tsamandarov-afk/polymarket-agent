@@ -218,7 +218,7 @@
       <div class="pb">
         <div class="price-row"><span class="big pos" id="eq-val">—</span><span class="muted" id="eq-sub"></span></div>
         <canvas id="bt-equity" aria-label="Кривая баланса бэктеста с 2023 года"></canvas>
-        <div class="legend"><span><i style="background:var(--green)"></i>баланс</span><span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>просадка от максимума</span><span><i style="background:var(--faint)"></i>границы лет</span></div>
+        <div class="legend"><span><i style="background:var(--green)"></i>баланс</span><span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>просадка от максимума</span><span><i style="background:var(--faint)"></i>границы лет</span><span>2026 — исход по правилам Polymarket (средняя цена за 15 мин), до 2026 — по закрытию свечи</span></div>
       </div>
       <div class="minirow">
         <div><small>Ставка</small><b id="m-stake">—</b></div>
@@ -244,7 +244,7 @@
     <div class="ph"><span class="n">03</span>Доходность по месяцам<span class="chip" style="color:var(--teal)">% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ 15 МИН</span></div>
     <div class="pb">
       <div class="heat-wrap"><table class="heat" id="heat"></table></div>
-      <div class="legend"><span>Ставка фиксированная, прибыль не реинвестируется — поэтому проценты считаются от стартовых $10 000. Под процентом — угадано свечей за месяц.</span></div>
+      <div class="legend"><span>Ставка фиксированная, прибыль не реинвестируется — поэтому проценты считаются от стартовых $10 000. Под процентом — угадано свечей за месяц.</span><span><b style="color:var(--ink)">2026 — по правилам Polymarket:</b> «вверх» выигрывает, если средняя цена за 15 минут (Chainlink TWAP) не ниже цены на старте; считаем по минутным свечам Binance. 2023–2025 — по закрытию свечи (закрытие выше открытия); по правилам Polymarket в 2026 это давало на ~0.4% меньше угаданных и ~11% меньше прибыли.</span></div>
     </div>
   </section>
 
@@ -528,7 +528,8 @@ function render() {
     };
     $('heat').innerHTML = `<tr><th></th>${MONTHS.map((m) => `<th>${m}</th>`).join('')}<th>год</th><th>$</th></tr>` + years.map((y) => {
       const Y = B.years[y];
-      return `<tr><td class="y">${y}</td>${MONTHS.map((_, i) => cell(B.months[`${y}-${String(i + 1).padStart(2, '0')}`])).join('')}<td class="tot ${Y.ret >= 0 ? 'pos' : 'neg'}">${pct(Y.ret, 0)}<small>${Y.wr.toFixed(1)}%</small></td><td class="tot">${money(Y.pnl)}<small>${Y.n.toLocaleString('ru-RU')} ставок</small></td></tr>`;
+      const how = B.twap_from && Date.UTC(+y, 0, 1) / 1000 >= B.twap_from ? 'по правилам Polymarket' : 'по закрытию свечи';
+      return `<tr><td class="y">${y}<small>${how}</small></td>${MONTHS.map((_, i) => cell(B.months[`${y}-${String(i + 1).padStart(2, '0')}`])).join('')}<td class="tot ${Y.ret >= 0 ? 'pos' : 'neg'}">${pct(Y.ret, 0)}<small>${Y.wr.toFixed(1)}%</small></td><td class="tot">${money(Y.pnl)}<small>${Y.n.toLocaleString('ru-RU')} ставок</small></td></tr>`;
     }).join('');
     // чувствительность
     const live = D.avg_ask ? Math.round(D.avg_ask * 100) / 100 : null;
@@ -540,14 +541,17 @@ function render() {
   const since = new Date(D.started).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
   $('s-live').textContent = D.closed ? money(D.balance - D.start, 2) : 'идёт';
   $('s-live-s').textContent = D.closed ? `${D.wins} из ${D.closed} угадано · средний вход ${D.avg_ask ? Math.round(D.avg_ask * 1000) / 10 + '¢' : '—'}` : `с ${since} · ждём первых сигналов`;
-  $('l-val').textContent = money(D.balance, 2); $('l-sub').textContent = `старт ${money(D.start)} · ${money(D.stake)} на сигнал · с ${since}`;
+  $('l-val').textContent = money(D.balance, 2);
+  $('l-sub').textContent = `старт ${money(D.start)} · ${money(D.stake)} на сигнал по реальной цене книги · с ${since}` +
+    (D.fill100_ok && D.fill100_ok !== '0/0' ? ` · $100 можно было купить в ${D.fill100_ok}${D.avg_fill100 ? `, в среднем по ${(D.avg_fill100 * 100).toFixed(1)}¢` : ''}` : '');
   $('l-chip').textContent = `${D.closed} ЗАКРЫТО · ${D.open} ОТКРЫТО`;
   const stTxt = { open: ['идёт', 'faint'], won: ['угадан', 'pos'], lost: ['мимо', 'neg'], skipped: ['нет цены', 'faint'] };
   $('bets').innerHTML = D.bets.length ? D.bets.map((b) => {
     const [t, cl] = stTxt[b.status] || [b.status, 'faint'];
     const res = b.pnl != null ? `${b.pnl >= 0 ? '+' : '−'}$${Math.abs(b.pnl).toFixed(2)}` : t;
     const tags = b.v ? ['cap2', 'trend', 'cap2_trend'].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
-    return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted">${b.side === 'Up' ? 'вверх' : 'вниз'} · ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${b.ask60 ? ' → ' + (b.ask60 * 100).toFixed(1) + '¢' : ''} ${tags}</span><span class="${cl}">${res}</span></div>`;
+    const f100 = b.fill100 ? ` · $100 по ${(b.fill100 * 100).toFixed(1)}¢` : b.book_usd != null ? ` · $100 не купить (в книге $${b.book_usd.toFixed(0)})` : '';
+    return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted" title="лучшая цена ${b.ask5 ? (b.ask5 * 100).toFixed(1) + '¢' : '—'}, через минуту ${b.ask60 ? (b.ask60 * 100).toFixed(1) + '¢' : '—'}, записано через ${b.seen ?? '—'} с после открытия">${b.side === 'Up' ? 'вверх' : 'вниз'} · $10 по ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${f100} ${tags}</span><span class="${cl}">${res}</span></div>`;
   }).join('') : '<div class="empty">Агент следит за закрытием каждой 15-минутной свечи. При сигнале он записывает реальную цену доли на Polymarket и итог рынка. В среднем по 7 монетам — около 25 сигналов в сутки.</div>';
   renderLiveVariants();
   drawLiveEquity();
