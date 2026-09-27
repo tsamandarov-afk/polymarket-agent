@@ -522,7 +522,7 @@ function drawLiveEquity() {
 function renderLiveVariants() {
   const LV = D.live_variants || [], BT = Object.fromEntries(((D.bt && D.bt.variants) || []).map((v) => [v.key, v]));
   $('lv-tbl').innerHTML = `<tr><th>вариант</th><th>ставок</th><th>угадано</th><th>в бэктесте</th><th>итог</th></tr>` + LV.map((v) => {
-    const b = BT[v.key], exp = b ? b.wr.toFixed(1) + '%' : '—';
+    const b = BT[v.key], exp = v.exp != null ? v.exp.toFixed(1) + '%' : b ? b.wr.toFixed(1) + '%' : '—';
     return `<tr><td><span style="color:${VCOL[v.key]}">●</span> ${v.name}</td><td>${v.n}${v.open ? ` <span class="faint">+${v.open}</span>` : ''}</td>
       <td>${v.n ? (v.wins / v.n * 100).toFixed(1) + '%' : '—'}</td><td class="faint">${exp}</td>
       <td class="${v.pnl >= 0 ? 'pos' : 'neg'}">${v.n ? money(v.pnl, 2) : '—'}</td></tr>`;
@@ -575,7 +575,8 @@ function render() {
   $('bets').innerHTML = D.bets.length ? D.bets.map((b) => {
     const [t, cl] = stTxt[b.status] || [b.status, 'faint'];
     const res = b.pnl != null ? `${b.pnl >= 0 ? '+' : '−'}$${Math.abs(b.pnl).toFixed(2)}` : t;
-    const tags = b.v ? ['cap2', 'trend', 'cap2_trend'].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
+    const tags = b.v ? (b.v.base === false ? '<span class="faint">только подбор</span> ' : '') +
+      ['cap2', 'trend', 'cap2_trend', 'opt_a', 'opt_b'].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
     const f100 = b.fill100 ? ` · $100 по ${(b.fill100 * 100).toFixed(1)}¢` : b.book_usd != null ? ` · $100 не купить (в книге $${b.book_usd.toFixed(0)})` : '';
     return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted" title="лучшая цена ${b.ask5 ? (b.ask5 * 100).toFixed(1) + '¢' : '—'}, через минуту ${b.ask60 ? (b.ask60 * 100).toFixed(1) + '¢' : '—'}, записано через ${b.seen ?? '—'} с после открытия">${b.side === 'Up' ? 'вверх' : 'вниз'} · $10 по ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${f100} ${tags}</span><span class="${cl}">${res}</span></div>`;
   }).join('') : `<div class="empty">Агент следит за закрытием каждой ${TFC[TF].n}-минутной свечи. При сигнале он записывает реальную цену доли на Polymarket и итог рынка. В среднем по 7 монетам — около ${TFC[TF].sigDay} сигналов в сутки.</div>`;
@@ -601,7 +602,8 @@ function render() {
 }
 
 // ── 08 защиты от обвала
-const VCOL = { base: C.green, cap2: C.blue, pause: C.amber, trend: C.violet, cap2_trend: '#F5E27A', cap2_pause: C.teal, all: '#FF8FB1' };
+const VCOL = { base: C.green, cap2: C.blue, pause: C.amber, trend: C.violet, cap2_trend: '#F5E27A', cap2_pause: C.teal, all: '#FF8FB1',
+  cheap: '#9AA7BA', opt_a: '#FF9F43', opt_b: '#4DD8FF' };
 const vHidden = new Set();
 function drawVariants() {
   const V = D && D.bt && D.bt.variants; if (!V) return;
