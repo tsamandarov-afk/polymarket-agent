@@ -159,6 +159,14 @@
   .rules b { color: var(--ink); font-weight: 500; }
   footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
 
+  .tfbar { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--panel2); }
+  .tfb { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+         background: none; border: 0; padding: 11px 14px; cursor: pointer; display: grid; gap: 3px; text-align: left; border-bottom: 2px solid transparent; }
+  .tfb small { font-size: 9.5px; font-weight: 400; letter-spacing: .1em; color: var(--faint); }
+  .tfb:hover { color: var(--ink); }
+  .tfb.on { color: var(--ink); background: var(--violet-soft); border-bottom-color: var(--violet); }
+  .tfb:focus-visible { outline: 2px solid var(--violet); outline-offset: -2px; }
+
   @media (max-width: 1080px) {
     .coins { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .grid-3 { grid-template-columns: 1fr 1fr; }
@@ -190,14 +198,19 @@
       </svg>
     </div>
     <div class="brand">
-      <h1>ОТКАТ <span>/</span> <em>POLYMARKET · 15 МИНУТ</em></h1>
-      <p>7 монет · свечи 15м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
+      <h1>ОТКАТ <span>/</span> <em>POLYMARKET · <span class="tf-n">15</span> МИНУТ</em></h1>
+      <p>7 монет · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
     </div>
     <div class="hdr-right">
       <span class="pill"><i class="dot"></i>наблюдение · без реальных денег</span>
       <div class="clock"><b id="clock">--:--:--</b><small id="clock-sub">UTC</small></div>
     </div>
   </header>
+
+  <nav class="tfbar" aria-label="Раздел">
+    <button class="tfb" data-tf="15m">15 минут<small>основной раздел</small></button>
+    <button class="tfb" data-tf="5m">5 минут<small>отдельное наблюдение с 27.09</small></button>
+  </nav>
 
   <div class="strip">
     <div class="tag">РЫНОК</div>
@@ -218,7 +231,7 @@
       <div class="pb">
         <div class="price-row"><span class="big pos" id="eq-val">—</span><span class="muted" id="eq-sub"></span></div>
         <canvas id="bt-equity" aria-label="Кривая баланса бэктеста с 2023 года"></canvas>
-        <div class="legend"><span><i style="background:var(--green)"></i>баланс</span><span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>просадка от максимума</span><span><i style="background:var(--faint)"></i>границы лет</span><span>2026 — исход по правилам Polymarket (средняя цена за 15 мин), до 2026 — по закрытию свечи</span></div>
+        <div class="legend"><span><i style="background:var(--green)"></i>баланс</span><span><i style="background:var(--red-soft);border:1px solid var(--red)"></i>просадка от максимума</span><span><i style="background:var(--faint)"></i>границы лет</span><span>2026 — исход по правилам Polymarket (средняя цена за <span class="tf-n">15</span> мин), до 2026 — по закрытию свечи</span></div>
       </div>
       <div class="minirow">
         <div><small>Ставка</small><b id="m-stake">—</b></div>
@@ -229,22 +242,22 @@
     </section>
 
     <section class="panel p-red">
-      <div class="ph"><span class="n">02</span><span id="c-title">BTC / USDT</span><span class="chip" style="color:var(--red)">15М · СИГНАЛЫ</span></div>
+      <div class="ph"><span class="n">02</span><span id="c-title">BTC / USDT</span><span class="chip" style="color:var(--red)"><span class="tf-n">15</span>М · СИГНАЛЫ</span></div>
       <div class="pb">
         <div class="tabs" id="tabs" role="tablist" aria-label="Монета"></div>
         <div class="price-row"><span class="big" id="c-price">—</span><span id="c-chg"></span></div>
         <div class="ohlc" id="c-ohlc"></div>
-        <canvas id="chart" aria-label="Свечи 15 минут с полосами Боллинджера, RSI и сигналами стратегии"></canvas>
+        <canvas id="chart" aria-label="Свечи с полосами Боллинджера, RSI и сигналами стратегии"></canvas>
         <div class="legend"><span><i style="background:var(--blue)"></i>полосы Боллинджера 22 · 1.4</span><span><i style="background:var(--violet)"></i>RSI 4 · пороги 12 / 90</span><span><i style="background:var(--green)"></i>сигнал угадан</span><span><i style="background:var(--red)"></i>сигнал не угадан</span></div>
       </div>
     </section>
   </div>
 
   <section class="panel p-teal">
-    <div class="ph"><span class="n">03</span>Доходность по месяцам<span class="chip" style="color:var(--teal)">% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ 15 МИН</span></div>
+    <div class="ph"><span class="n">03</span>Доходность по месяцам<span class="chip" style="color:var(--teal)" id="heat-chip">% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ 15 МИН</span></div>
     <div class="pb">
       <div class="heat-wrap"><table class="heat" id="heat"></table></div>
-      <div class="legend"><span>Ставка фиксированная, прибыль не реинвестируется — поэтому проценты считаются от стартовых $10 000. Под процентом — угадано свечей за месяц.</span><span><b style="color:var(--ink)">2026 — по правилам Polymarket:</b> «вверх» выигрывает, если средняя цена за 15 минут (Chainlink TWAP) не ниже цены на старте; считаем по минутным свечам Binance. 2023–2025 — по закрытию свечи (закрытие выше открытия); по правилам Polymarket в 2026 это давало на ~0.4% меньше угаданных и ~11% меньше прибыли.</span></div>
+      <div class="legend"><span>Ставка фиксированная, прибыль не реинвестируется — поэтому проценты считаются от стартовых $10 000. Под процентом — угадано свечей за месяц.</span><span><b style="color:var(--ink)">2026 — по правилам Polymarket:</b> «вверх» выигрывает, если средняя цена за <span class="tf-n">15</span> минут (Chainlink TWAP) не ниже цены на старте; считаем по минутным свечам Binance. <span id="heat-early">2023–2025</span> — по закрытию свечи (закрытие выше открытия); по правилам Polymarket в 2026 это давало на ~0.4% меньше угаданных и ~11% меньше прибыли.</span></div>
     </div>
   </section>
 
@@ -293,10 +306,10 @@
     <div class="ph"><span class="n">07</span>Правила стратегии<span class="chip" style="color:var(--muted)">TRADESMART · SOL 15M R1</span></div>
     <div class="pb">
       <ol class="rules">
-        <li>Ждём закрытия 15-минутной свечи на Binance.</li>
+        <li>Ждём закрытия <span class="tf-n">15</span>-минутной свечи на Binance.</li>
         <li><b>Ставка «вниз»:</b> RSI(4) выше <b>90</b>, %B(22; 1.4) выше <b>0.85</b>, ATR(41) выше <b>0.26%</b> цены.</li>
         <li><b>Ставка «вверх»:</b> RSI(4) ниже <b>12</b>, %B ниже <b>−0.2</b>, ATR выше <b>0.26%</b>.</li>
-        <li>Покупаем долю на Polymarket в рынке «Up or Down» на следующие 15 минут. Держим до конца свечи: угадали — доля стоит $1, нет — $0.</li>
+        <li>Покупаем долю на Polymarket в рынке «Up or Down» на следующие <span class="tf-n">15</span> минут. Держим до конца свечи: угадали — доля стоит $1, нет — $0.</li>
         <li>Комиссия Polymarket: доли × 0.07 × цена × (1 − цена). При 50¢ это ~3.5% ставки.</li>
       </ol>
     </div>
@@ -323,8 +336,14 @@ const pct = (x, d = 1) => (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(d) + '%';
 const fmtT = (s) => new Date(s * 1000).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 const $ = (id) => document.getElementById(id);
 
-let D = null;                 // data.json: live journal + rolling backtest
-const K = {};                 // live 15m candles per coin from Binance
+// two independent sections: 15-minute markets (data.json) and 5-minute markets (data_5m.json)
+const TFC = {
+  '15m': { sec: 900, n: 15, file: 'data.json', perDay: 96, sigDay: 25 },
+  '5m': { sec: 300, n: 5, file: 'data_5m.json', perDay: 288, sigDay: 42 },
+};
+let TF = location.hash === '#5m' ? '5m' : '15m';
+let D = null;                 // current section's data file: live journal + rolling backtest
+let K = {};                   // live candles per coin from Binance for the current section
 let cur = 'BTC';
 
 function fit(cv) {
@@ -337,8 +356,8 @@ function fit(cv) {
 // ── часы и отсчёт до закрытия свечи
 function tick() {
   const n = new Date(); $('clock').textContent = n.toISOString().slice(11, 19);
-  const left = 900 - Math.floor(n.getTime() / 1000) % 900;
-  $('clock-sub').textContent = `UTC · свеча 15м закроется через ${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
+  const sec = TFC[TF].sec, left = sec - Math.floor(n.getTime() / 1000) % sec;
+  $('clock-sub').textContent = `UTC · свеча ${TFC[TF].n}м закроется через ${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
 }
 tick(); setInterval(tick, 1000);
 
@@ -370,9 +389,11 @@ function indicators(k) {
 }
 
 async function loadCandles(sym) {
-  const r = await fetch(`https://data-api.binance.vision/api/v3/klines?symbol=${sym}USDT&interval=15m&limit=400`, { cache: 'no-store' });
+  const tf = TF;
+  const r = await fetch(`https://data-api.binance.vision/api/v3/klines?symbol=${sym}USDT&interval=${tf}&limit=400`, { cache: 'no-store' });
   if (!r.ok) throw new Error('binance');
   const raw = await r.json();
+  if (tf !== TF) return;   // section switched while loading
   K[sym] = raw.map((x) => [x[0] / 1000, +x[1], +x[2], +x[3], +x[4], x[6] < Date.now()]);
 }
 
@@ -451,7 +472,7 @@ function headline() {
   const k = K[cur]; if (!k) return;
   const n = k.length, last = k[n - 1], I = indicators(k), j = k[n - 1][5] ? n - 1 : n - 2;
   $('c-price').textContent = px(last[4]);
-  const ch = (last[4] / k[n - 97][4] - 1) * 100; $('c-chg').textContent = pct(ch, 2) + ' за 24ч'; $('c-chg').className = ch >= 0 ? 'pos' : 'neg';
+  const ch = (last[4] / k[n - 1 - TFC[TF].perDay][4] - 1) * 100; $('c-chg').textContent = pct(ch, 2) + ' за 24ч'; $('c-chg').className = ch >= 0 ? 'pos' : 'neg';
   $('c-ohlc').innerHTML = `<span>RSI ${I.rsi[j].toFixed(1)}</span><span>%B ${I.pb[j].toFixed(2)}</span><span>ATR ${I.atrp[j].toFixed(2)}%</span><span>сигналов на экране: ${I.sig.slice(-96).filter((s, q) => s && k[n - 96 + q][5]).length}</span>`;
 }
 $('tabs').innerHTML = COINS.map((s) => `<button class="tab" role="tab" data-sym="${s}">${s}</button>`).join('');
@@ -466,8 +487,10 @@ function drawBtEquity() {
   const X = (t) => (t - t0) / (t1 - t0 || 1) * (w - padR), Y = (v) => top + (hi - v) / (hi - lo) * (h - padB - top);
   for (let q = 0; q <= 4; q++) { const v = lo + (hi - lo) * q / 4, y = Y(v); g.strokeStyle = C.hair; g.setLineDash([2, 4]); g.beginPath(); g.moveTo(0, y); g.lineTo(w - padR, y); g.stroke(); g.setLineDash([]); g.fillStyle = C.faint; g.fillText('$' + (v / 1000).toFixed(0) + 'k', w - padR + 6, y + 3); }
   // границы лет
-  for (let y = 2023; y <= new Date().getUTCFullYear(); y++) {
-    const t = Date.UTC(y, 0, 1) / 1000; if (t < t0 || t > t1) { if (y === 2023) { g.fillStyle = C.muted; g.fillText('2023', 4, h - 4); } continue; }
+  const yFirst = new Date(t0 * 1000).getUTCFullYear();
+  g.fillStyle = C.muted; g.fillText(String(yFirst), 4, h - 4);
+  for (let y = yFirst + 1; y <= new Date().getUTCFullYear(); y++) {
+    const t = Date.UTC(y, 0, 1) / 1000; if (t < t0 || t > t1) continue;
     const x = X(t); g.strokeStyle = C.line; g.beginPath(); g.moveTo(x, top); g.lineTo(x, h - padB); g.stroke(); g.fillStyle = C.muted; g.fillText(String(y), x + 4, h - 4);
   }
   // просадка: заливка между максимумом и балансом
@@ -509,6 +532,9 @@ function renderLiveVariants() {
 function render() {
   const B = D.bt;
   if (B) {
+    const y0 = new Date(B.from_ts * 1000).getUTCFullYear();
+    $('eq-chip').textContent = `$10 000 · С 01.01.${y0}`;
+    $('heat-early').textContent = y0 < 2025 ? `${y0}–2025` : '2025';
     const gain = B.balance - B.start, months = Object.values(B.months), full = months.slice(0, -1);
     const avgMo = full.length ? full.reduce((a, m) => a + m.ret, 0) / full.length : 0;
     const neg = months.filter((m) => m.pnl < 0).length;
@@ -552,7 +578,7 @@ function render() {
     const tags = b.v ? ['cap2', 'trend', 'cap2_trend'].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
     const f100 = b.fill100 ? ` · $100 по ${(b.fill100 * 100).toFixed(1)}¢` : b.book_usd != null ? ` · $100 не купить (в книге $${b.book_usd.toFixed(0)})` : '';
     return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted" title="лучшая цена ${b.ask5 ? (b.ask5 * 100).toFixed(1) + '¢' : '—'}, через минуту ${b.ask60 ? (b.ask60 * 100).toFixed(1) + '¢' : '—'}, записано через ${b.seen ?? '—'} с после открытия">${b.side === 'Up' ? 'вверх' : 'вниз'} · $10 по ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${f100} ${tags}</span><span class="${cl}">${res}</span></div>`;
-  }).join('') : '<div class="empty">Агент следит за закрытием каждой 15-минутной свечи. При сигнале он записывает реальную цену доли на Polymarket и итог рынка. В среднем по 7 монетам — около 25 сигналов в сутки.</div>';
+  }).join('') : `<div class="empty">Агент следит за закрытием каждой ${TFC[TF].n}-минутной свечи. При сигнале он записывает реальную цену доли на Polymarket и итог рынка. В среднем по 7 монетам — около ${TFC[TF].sigDay} сигналов в сутки.</div>`;
   renderLiveVariants();
   drawLiveEquity();
   // радар
@@ -586,8 +612,9 @@ function drawVariants() {
   let lo = Math.min(D.bt.start, ...all.map((p) => p[1])), hi = Math.max(...all.map((p) => p[1])); const pd = (hi - lo) * 0.05; lo = Math.max(0, lo - pd); hi += pd;
   const X = (t) => (t - t0) / (t1 - t0 || 1) * (w - padR), Y = (v) => top + (hi - v) / (hi - lo) * (h - padB - top);
   for (let q = 0; q <= 4; q++) { const v = lo + (hi - lo) * q / 4, y = Y(v); g.strokeStyle = C.hair; g.setLineDash([2, 4]); g.beginPath(); g.moveTo(0, y); g.lineTo(w - padR, y); g.stroke(); g.setLineDash([]); g.fillStyle = C.faint; g.fillText('$' + (v / 1000).toFixed(0) + 'k', w - padR + 6, y + 3); }
-  for (let y = 2024; y <= new Date().getUTCFullYear(); y++) { const x = X(Date.UTC(y, 0, 1) / 1000); g.strokeStyle = C.line; g.beginPath(); g.moveTo(x, top); g.lineTo(x, h - padB); g.stroke(); g.fillStyle = C.muted; g.fillText(String(y), x + 4, h - 4); }
-  g.fillStyle = C.muted; g.fillText('2023', 4, h - 4);
+  const yFirst = new Date(t0 * 1000).getUTCFullYear();
+  for (let y = yFirst + 1; y <= new Date().getUTCFullYear(); y++) { const x = X(Date.UTC(y, 0, 1) / 1000); g.strokeStyle = C.line; g.beginPath(); g.moveTo(x, top); g.lineTo(x, h - padB); g.stroke(); g.fillStyle = C.muted; g.fillText(String(y), x + 4, h - 4); }
+  g.fillStyle = C.muted; g.fillText(String(yFirst), 4, h - 4);
   shown.forEach((v) => {
     g.beginPath(); v.equity.forEach(([t, b], i) => { i ? g.lineTo(X(t), Y(b)) : g.moveTo(X(t), Y(b)); });
     g.strokeStyle = VCOL[v.key]; g.lineWidth = v.key === 'base' ? 1.8 : 1.3; g.stroke(); g.lineWidth = 1;
@@ -622,7 +649,7 @@ function coinsRender() {
       price = px(k[k.length - 1][4]);
     }
     return `<button class="coin" data-sym="${s}" aria-label="${s}: показать сигналы" style="background:linear-gradient(180deg, ${col}1f, transparent 60%)">
-      <div class="top"><span>15М</span><span>${lv.n ? lv.w + '/' + lv.n + ' живых' : 'живых нет'}</span></div>
+      <div class="top"><span>${TFC[TF].n}М</span><span>${lv.n ? lv.w + '/' + lv.n + ' живых' : 'живых нет'}</span></div>
       <div class="ava" style="background:${col};box-shadow:0 0 0 4px ${C.panel}, 0 0 0 5px ${col}">${s.slice(0, 4)}</div>
       <div class="nm">${s}</div>
       <div class="px">${price}</div>
@@ -636,17 +663,19 @@ $('coins').addEventListener('click', (e) => { const b = e.target.closest('.coin'
 
 // ── бегущая строка
 function ticker() {
-  const items = COINS.filter((s) => K[s]).map((s) => { const k = K[s], n = k.length, ch = (k[n - 1][4] / k[n - 97][4] - 1) * 100; return `<span><b>${s}/USDT</b> ${px(k[n - 1][4])} <span class="${ch >= 0 ? 'pos' : 'neg'}">${pct(ch, 2)}</span></span>`; }).join('');
-  const extra = `<span class="muted">агент проверяет рынок на закрытии каждой 15-минутной свечи</span><span class="muted">ставка — только на одну следующую свечу</span>`;
+  const items = COINS.filter((s) => K[s]).map((s) => { const k = K[s], n = k.length, ch = (k[n - 1][4] / k[n - 1 - TFC[TF].perDay][4] - 1) * 100; return `<span><b>${s}/USDT</b> ${px(k[n - 1][4])} <span class="${ch >= 0 ? 'pos' : 'neg'}">${pct(ch, 2)}</span></span>`; }).join('');
+  const extra = `<span class="muted">агент проверяет рынок на закрытии каждой ${TFC[TF].n}-минутной свечи</span><span class="muted">ставка — только на одну следующую свечу</span>`;
   $('ticker').innerHTML = items + extra + items + extra;
 }
 
 // ── загрузка
 async function loadData() {
+  const tf = TF;
   try {
-    const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
-    if (!r.ok) return;
+    const r = await fetch(TFC[tf].file + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) { if (!D) $('foot-l').textContent = 'Данные этого раздела ещё не опубликованы'; return; }
     const nd = await r.json();
+    if (tf !== TF) return;
     if (!D || nd.generated !== D.generated) { D = nd; render(); }
   } catch (e) { if (!D) $('foot-l').textContent = 'Данные агента пока недоступны'; }
 }
@@ -654,9 +683,20 @@ async function loadAll() {
   await Promise.all(COINS.map((s) => loadCandles(s).catch(() => {})));
   ticker(); headline(); coinsRender();
 }
+function setTF(tf) {
+  TF = tf;
+  history.replaceState(null, '', tf === '5m' ? '#5m' : location.pathname + location.search);
+  document.querySelectorAll('.tfb').forEach((b) => { b.classList.toggle('on', b.dataset.tf === tf); b.setAttribute('aria-pressed', b.dataset.tf === tf); });
+  document.querySelectorAll('.tf-n').forEach((s) => { s.textContent = TFC[tf].n; });
+  $('heat-chip').textContent = `% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ ${TFC[tf].n} МИН`;
+  D = null; K = {}; vHidden.clear();
+  tick(); drawStart = performance.now();
+  loadData(); loadAll();
+}
+document.querySelector('.tfbar').addEventListener('click', (e) => { const b = e.target.closest('.tfb'); if (b && b.dataset.tf !== TF) setTF(b.dataset.tf); });
 chartCtx = fit($('chart'));
 setCoin('BTC');
-loadData(); loadAll();
+setTF(TF);
 setInterval(loadData, 60000);
 setInterval(loadAll, 20000);
 
