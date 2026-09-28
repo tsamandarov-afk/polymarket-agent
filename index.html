@@ -159,7 +159,7 @@
   .rules b { color: var(--ink); font-weight: 500; }
   footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
 
-  .tfbar { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); background: var(--panel2); }
+  .tfbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); background: var(--panel2); }
   .tfb { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
          background: none; border: 0; padding: 11px 14px; cursor: pointer; display: grid; gap: 3px; text-align: left; border-bottom: 2px solid transparent; }
   .tfb small { font-size: 9.5px; font-weight: 400; letter-spacing: .1em; color: var(--faint); }
@@ -173,6 +173,7 @@
     .grid-3 .panel:last-child { grid-column: 1 / -1; }
   }
   @media (max-width: 820px) {
+    .tfbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid-main, .grid-3 { grid-template-columns: 1fr; }
     .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stat { border-bottom: 1px solid var(--hair); }
@@ -198,7 +199,7 @@
       </svg>
     </div>
     <div class="brand">
-      <h1>ОТКАТ <span>/</span> <em>POLYMARKET · <span class="tf-n">15</span> МИНУТ</em></h1>
+      <h1>ОТКАТ <span>/</span> <em><span id="tf-venue">POLYMARKET</span> · <span class="tf-n">15</span> МИНУТ</em></h1>
       <p>7 монет · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
     </div>
     <div class="hdr-right">
@@ -210,6 +211,8 @@
   <nav class="tfbar" aria-label="Раздел">
     <button class="tfb" data-tf="15m">15 минут<small>основной раздел</small></button>
     <button class="tfb" data-tf="5m">5 минут<small>отдельное наблюдение с 27.09</small></button>
+    <button class="tfb" data-tf="okx5">OKX 5 минут<small>BTC · ETH · SOL, с 28.09</small></button>
+    <button class="tfb" data-tf="okx15">OKX 15 минут<small>BTC · ETH · SOL, с 28.09</small></button>
   </nav>
 
   <div class="strip">
@@ -322,7 +325,8 @@
 </div>
 
 <script>
-const COINS = ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB', 'ZEC'];
+const ALL_COINS = ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB', 'ZEC'];
+let COINS = ALL_COINS;   // OKX sections list only the coins OKX trades
 const COLORS = { BTC: '#F29A2E', ETH: '#7B8CFF', SOL: '#A56BFF', XRP: '#6E86A6', DOGE: '#D9B53A', BNB: '#E8B923', ZEC: '#E0A33A' };
 const P = { rsi: 4, bb: 22, bbk: 1.4, atr: 41, amin: 0.26, hi: 90, lo: 12, pbhi: 0.85, pblo: -0.2 };
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -338,10 +342,12 @@ const $ = (id) => document.getElementById(id);
 
 // two independent sections: 15-minute markets (data.json) and 5-minute markets (data_5m.json)
 const TFC = {
-  '15m': { sec: 900, n: 15, file: 'data.json', perDay: 96, sigDay: 25 },
-  '5m': { sec: 300, n: 5, file: 'data_5m.json', perDay: 288, sigDay: 42 },
+  '15m': { sec: 900, n: 15, file: 'data.json', perDay: 96, sigDay: 25, iv: '15m', venue: 'POLYMARKET', coins: ALL_COINS },
+  '5m': { sec: 300, n: 5, file: 'data_5m.json', perDay: 288, sigDay: 42, iv: '5m', venue: 'POLYMARKET', coins: ALL_COINS },
+  'okx5': { sec: 300, n: 5, file: 'data_okx5.json', perDay: 288, sigDay: 18, iv: '5m', venue: 'OKX', coins: ['BTC', 'ETH', 'SOL'] },
+  'okx15': { sec: 900, n: 15, file: 'data_okx15.json', perDay: 96, sigDay: 11, iv: '15m', venue: 'OKX', coins: ['BTC', 'ETH', 'SOL'] },
 };
-let TF = location.hash === '#5m' ? '5m' : '15m';
+let TF = TFC[location.hash.slice(1)] ? location.hash.slice(1) : '15m';
 let D = null;                 // current section's data file: live journal + rolling backtest
 let K = {};                   // live candles per coin from Binance for the current section
 let cur = 'BTC';
@@ -390,7 +396,7 @@ function indicators(k) {
 
 async function loadCandles(sym) {
   const tf = TF;
-  const r = await fetch(`https://data-api.binance.vision/api/v3/klines?symbol=${sym}USDT&interval=${tf}&limit=400`, { cache: 'no-store' });
+  const r = await fetch(`https://data-api.binance.vision/api/v3/klines?symbol=${sym}USDT&interval=${TFC[tf].iv}&limit=400`, { cache: 'no-store' });
   if (!r.ok) throw new Error('binance');
   const raw = await r.json();
   if (tf !== TF) return;   // section switched while loading
@@ -475,7 +481,8 @@ function headline() {
   const ch = (last[4] / k[n - 1 - TFC[TF].perDay][4] - 1) * 100; $('c-chg').textContent = pct(ch, 2) + ' за 24ч'; $('c-chg').className = ch >= 0 ? 'pos' : 'neg';
   $('c-ohlc').innerHTML = `<span>RSI ${I.rsi[j].toFixed(1)}</span><span>%B ${I.pb[j].toFixed(2)}</span><span>ATR ${I.atrp[j].toFixed(2)}%</span><span>сигналов на экране: ${I.sig.slice(-96).filter((s, q) => s && k[n - 96 + q][5]).length}</span>`;
 }
-$('tabs').innerHTML = COINS.map((s) => `<button class="tab" role="tab" data-sym="${s}">${s}</button>`).join('');
+function coinTabs() { $('tabs').innerHTML = COINS.map((s) => `<button class="tab" role="tab" data-sym="${s}">${s}</button>`).join(''); }
+coinTabs();
 $('tabs').addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (b) setCoin(b.dataset.sym); });
 
 // ── 01 кривая капитала бэктеста
@@ -598,7 +605,8 @@ function render() {
   $('r-chip').textContent = near ? `${near} У ПОРОГА` : 'ДО СИГНАЛА';
   coinsRender();
   renderVariants();
-  $('foot-l').textContent = `Срез агента: ${new Date(D.generated).toLocaleString('ru-RU')} · свечи Binance, рынки Polymarket`;
+  $('foot-l').textContent = `Срез агента: ${new Date(D.generated).toLocaleString('ru-RU')} · свечи Binance, рынки ${D.venue || 'Polymarket'}` +
+    (D.fee_note ? ` · ${D.fee_note}` : '');
 }
 
 // ── 08 защиты от обвала
@@ -687,7 +695,11 @@ async function loadAll() {
 }
 function setTF(tf) {
   TF = tf;
-  history.replaceState(null, '', tf === '5m' ? '#5m' : location.pathname + location.search);
+  history.replaceState(null, '', tf === '15m' ? location.pathname + location.search : '#' + tf);
+  COINS = TFC[tf].coins; coinTabs();
+  if (!COINS.includes(cur)) cur = 'BTC';
+  setCoin(cur);
+  $('tf-venue').textContent = TFC[tf].venue;
   document.querySelectorAll('.tfb').forEach((b) => { b.classList.toggle('on', b.dataset.tf === tf); b.setAttribute('aria-pressed', b.dataset.tf === tf); });
   document.querySelectorAll('.tf-n').forEach((s) => { s.textContent = TFC[tf].n; });
   $('heat-chip').textContent = `% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ ${TFC[tf].n} МИН`;
