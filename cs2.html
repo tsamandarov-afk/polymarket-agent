@@ -227,9 +227,12 @@
   </section>
   <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$10 НА СТАВКУ</span></div>
     <div class="pb"><svg id="eq"></svg></div></section>
-  <section class="panel p-blue"><div class="ph"><span class="n">02</span>Матчи<span class="chip" style="color:var(--blue)">ВРЕМЯ ТБИЛИСИ</span></div>
+  <section class="panel p-amber"><div class="ph"><span class="n">02</span>Ликвидность стакана<span class="chip" style="color:var(--amber)">ВХОДЫ ≤ 90¢</span></div>
+    <div class="pb"><table class="tbl" id="liq"></table>
+    <p class="note">Сколько раз стакан выдержал такую ставку в момент входа и на сколько центов в среднем дороже цены для $10. Замеры $100–500 — с вечера 29.09.</p></div></section>
+  <section class="panel p-blue"><div class="ph"><span class="n">03</span>Матчи<span class="chip" style="color:var(--blue)">ВРЕМЯ ТБИЛИСИ</span></div>
     <div class="pb scroll"><table class="tbl" id="tbl" style="min-width:820px"></table></div></section>
-  <section class="panel"><div class="ph"><span class="n">03</span>Правила</div><div class="pb">
+  <section class="panel"><div class="ph"><span class="n">04</span>Правила</div><div class="pb">
     <ol class="rules">
       <li>Матчи CS2 в формате BO3 (до двух побед) на Polymarket.</li>
       <li>Как только в рынке «победитель карты 1» одна команда дошла до 95¢ — считаем, что она выиграла первую карту.</li>
@@ -255,10 +258,15 @@ function render(D) {
   if (D.cheap) { $('s-cheap').textContent = grp(D.cheap); $('s-cheap-s').textContent = `без дорогих входов · открыто ${D.cheap.open}`; }
   $('s-px').textContent = D.avg_fill10 ? c(D.avg_fill10) : '—'; $('s-px-s').textContent = `на $50 хватало: ${D.fill50_ok}`;
   curve(D.curve);
+  const L = D.liq || {};
+  $('liq').innerHTML = '<tr><th>ставка</th><th>стакан выдержал</th><th>доплата к цене</th></tr>' +
+    ['50', '100', '200', '500'].map((n) => { const x = L[n] || { n: 0 }; return `<tr><td>$${n}</td>` +
+      `<td>${x.n ? `${x.ok} из ${x.n} (${Math.round(x.ok / x.n * 100)}%)` : 'замеров пока нет'}</td>` +
+      `<td>${x.slip != null ? '+' + x.slip.toFixed(1) + '¢' : '—'}</td></tr>`; }).join('');
   const st = { open: 'идёт матч', won: 'выиграно', lost: 'проиграно', skip: 'без ставки' };
-  $('tbl').innerHTML = '<tr><th>время</th><th>матч</th><th>взяла карту 1</th><th>цена $10</th><th>цена $50</th><th>через 2 мин</th><th>тип</th><th>статус</th><th>P&L</th></tr>' +
+  $('tbl').innerHTML = '<tr><th>время</th><th>матч</th><th>взяла карту 1</th><th>цена $10</th><th>$50</th><th>$100</th><th>$200</th><th>$500</th><th>через 2 мин</th><th>тип</th><th>статус</th><th>P&L</th></tr>' +
     D.bets.map((b) => `<tr><td>${fmtT(b.t)}</td><td>${(b.title || '').replace('Counter-Strike: ', '').replace(/ \(BO3\).*/, '')}</td><td>${b.team}</td>` +
-      `<td>${c(b.fill10)}</td><td>${c(b.fill50)}</td><td>${c(b.fill10_2m)}</td><td>${b.kind || ''}</td><td>${st[b.status] || b.status}</td>` +
+      `<td>${c(b.fill10)}</td><td>${c(b.fill50)}</td><td>${c(b.fill100)}</td><td>${c(b.fill200)}</td><td>${c(b.fill500)}</td><td>${c(b.fill10_2m)}</td><td>${b.kind || ''}</td><td>${st[b.status] || b.status}</td>` +
       `<td class="${b.pnl > 0 ? 'pos' : b.pnl < 0 ? 'neg' : ''}">${b.pnl != null ? money(b.pnl) : ''}</td></tr>`).join('');
   $('foot-l').textContent = 'Обновлено ' + new Date(D.generated).toLocaleString('ru-RU', { timeZone: 'Asia/Tbilisi' });
 }
