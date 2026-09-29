@@ -211,8 +211,7 @@
   <nav class="tfbar" aria-label="Раздел">
     <button class="tfb" data-tf="15m">15 минут<small>основной раздел</small></button>
     <button class="tfb" data-tf="5m">5 минут<small>отдельное наблюдение с 27.09</small></button>
-    <button class="tfb" data-tf="okx5">OKX 5 минут<small>BTC · ETH · SOL, с 28.09</small></button>
-    <button class="tfb" data-tf="okx15">OKX 15 минут<small>BTC · ETH · SOL, с 28.09</small></button>
+    <button class="tfb" data-tf="kalshi15">Kalshi 15 минут<small>6 монет без ZEC, с 29.09</small></button>
   </nav>
 
   <div class="strip">
@@ -326,7 +325,7 @@
 
 <script>
 const ALL_COINS = ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB', 'ZEC'];
-let COINS = ALL_COINS;   // OKX sections list only the coins OKX trades
+let COINS = ALL_COINS;   // the Kalshi section lists only the coins Kalshi trades
 const COLORS = { BTC: '#F29A2E', ETH: '#7B8CFF', SOL: '#A56BFF', XRP: '#6E86A6', DOGE: '#D9B53A', BNB: '#E8B923', ZEC: '#E0A33A' };
 const P = { rsi: 4, bb: 22, bbk: 1.4, atr: 41, amin: 0.26, hi: 90, lo: 12, pbhi: 0.85, pblo: -0.2 };
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
@@ -344,8 +343,7 @@ const $ = (id) => document.getElementById(id);
 const TFC = {
   '15m': { sec: 900, n: 15, file: 'data.json', perDay: 96, sigDay: 25, iv: '15m', venue: 'POLYMARKET', coins: ALL_COINS },
   '5m': { sec: 300, n: 5, file: 'data_5m.json', perDay: 288, sigDay: 42, iv: '5m', venue: 'POLYMARKET', coins: ALL_COINS },
-  'okx5': { sec: 300, n: 5, file: 'data_okx5.json', perDay: 288, sigDay: 18, iv: '5m', venue: 'OKX', coins: ['BTC', 'ETH', 'SOL'] },
-  'okx15': { sec: 900, n: 15, file: 'data_okx15.json', perDay: 96, sigDay: 11, iv: '15m', venue: 'OKX', coins: ['BTC', 'ETH', 'SOL'] },
+  'kalshi15': { sec: 900, n: 15, file: 'data_kalshi15.json', perDay: 96, sigDay: 21, iv: '15m', venue: 'KALSHI', coins: ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB'] },
 };
 let TF = TFC[location.hash.slice(1)] ? location.hash.slice(1) : '15m';
 let D = null;                 // current section's data file: live journal + rolling backtest
@@ -586,7 +584,7 @@ function render() {
       ['cap2', 'trend', 'cap2_trend', 'opt_a', 'opt_b'].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
     const f100 = b.fill100 ? ` · $100 по ${(b.fill100 * 100).toFixed(1)}¢` : b.book_usd != null ? ` · $100 не купить (в книге $${b.book_usd.toFixed(0)})` : '';
     return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted" title="лучшая цена ${b.ask5 ? (b.ask5 * 100).toFixed(1) + '¢' : '—'}, через минуту ${b.ask60 ? (b.ask60 * 100).toFixed(1) + '¢' : '—'}, записано через ${b.seen ?? '—'} с после открытия">${b.side === 'Up' ? 'вверх' : 'вниз'} · $10 по ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${f100} ${tags}</span><span class="${cl}">${res}</span></div>`;
-  }).join('') : `<div class="empty">Агент следит за закрытием каждой ${TFC[TF].n}-минутной свечи. При сигнале он записывает реальную цену доли на Polymarket и итог рынка. В среднем по 7 монетам — около ${TFC[TF].sigDay} сигналов в сутки.</div>`;
+  }).join('') : `<div class="empty">Агент следит за закрытием каждой ${TFC[TF].n}-минутной свечи. При сигнале он записывает реальную цену доли на ${TFC[TF].venue === 'KALSHI' ? 'Kalshi' : 'Polymarket'} и итог рынка. В среднем по ${COINS.length} монетам — около ${TFC[TF].sigDay} сигналов в сутки.</div>`;
   renderLiveVariants();
   drawLiveEquity();
   // радар
