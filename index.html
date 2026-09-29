@@ -200,7 +200,7 @@
     </div>
     <div class="brand">
       <h1>ОТКАТ <span>/</span> <em><span id="tf-venue">POLYMARKET</span> · <span class="tf-n">15</span> МИНУТ</em></h1>
-      <p>7 монет · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
+      <p><span id="tf-coins">7</span> монет · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
     </div>
     <div class="hdr-right">
       <span class="pill"><i class="dot"></i>наблюдение · без реальных денег</span>
@@ -698,6 +698,7 @@ function setTF(tf) {
   if (!COINS.includes(cur)) cur = 'BTC';
   setCoin(cur);
   $('tf-venue').textContent = TFC[tf].venue;
+  $('tf-coins').textContent = COINS.length;
   document.querySelectorAll('.tfb').forEach((b) => { b.classList.toggle('on', b.dataset.tf === tf); b.setAttribute('aria-pressed', b.dataset.tf === tf); });
   document.querySelectorAll('.tf-n').forEach((s) => { s.textContent = TFC[tf].n; });
   $('heat-chip').textContent = `% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ ${TFC[tf].n} МИН`;
