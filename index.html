@@ -211,7 +211,7 @@
   <nav class="tfbar" aria-label="Раздел">
     <button class="tfb" data-tf="15m">15 минут<small>основной раздел</small></button>
     <button class="tfb" data-tf="5m">5 минут<small>отдельное наблюдение с 27.09</small></button>
-    <button class="tfb" data-tf="kalshi15">Kalshi 15 минут<small>6 монет без ZEC, с 29.09</small></button>
+    <button class="tfb" data-tf="kalshi15">Kalshi 15 минут<small>те же 7 монет, с 29.09</small></button>
   </nav>
 
   <div class="strip">
@@ -343,7 +343,7 @@ const $ = (id) => document.getElementById(id);
 const TFC = {
   '15m': { sec: 900, n: 15, file: 'data.json', perDay: 96, sigDay: 25, iv: '15m', venue: 'POLYMARKET', coins: ALL_COINS },
   '5m': { sec: 300, n: 5, file: 'data_5m.json', perDay: 288, sigDay: 42, iv: '5m', venue: 'POLYMARKET', coins: ALL_COINS },
-  'kalshi15': { sec: 900, n: 15, file: 'data_kalshi15.json', perDay: 96, sigDay: 21, iv: '15m', venue: 'KALSHI', coins: ['BTC', 'ETH', 'SOL', 'XRP', 'DOGE', 'BNB'] },
+  'kalshi15': { sec: 900, n: 15, file: 'data_kalshi15.json', perDay: 96, sigDay: 21, iv: '15m', venue: 'KALSHI', coins: ALL_COINS },
 };
 let TF = TFC[location.hash.slice(1)] ? location.hash.slice(1) : '15m';
 let D = null;                 // current section's data file: live journal + rolling backtest
