@@ -159,7 +159,7 @@
   .rules b { color: var(--ink); font-weight: 500; }
   footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
 
-  .tfbar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); background: var(--panel2); }
+  .tfbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); background: var(--panel2); }
   .tfb { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
          background: none; border: 0; padding: 11px 14px; cursor: pointer; display: grid; gap: 3px; text-align: left; border-bottom: 2px solid transparent; }
   .tfb small { font-size: 9.5px; font-weight: 400; letter-spacing: .1em; color: var(--faint); }
@@ -214,11 +214,15 @@
     <a class="tfb on" href="cs2.html">CS2 · карта 1<small>стратегия 5, с 29.09</small></a>
   </nav>
 
-  <section class="stats" aria-label="Показатели">
+  <style>.stats.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .stats.six .stat .v { font-size: clamp(16px, 1.6vw, 24px); }
+    @media (max-width: 820px) { .stats.six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }</style>
+  <section class="stats six" aria-label="Показатели">
     <div class="stat"><span class="k">Виртуальный счёт</span><span class="v" id="s-bal">—</span><span class="s" id="s-bal-s"></span></div>
     <div class="stat"><span class="k">Ставок / выиграно</span><span class="v" style="color:var(--teal)" id="s-bets">—</span><span class="s" id="s-bets-s"></span></div>
     <div class="stat"><span class="k">Фаворит (≥60¢)</span><span class="v" style="color:var(--amber)" id="s-fav">—</span><span class="s">бэктест с 06.2026: +4.3% на ставку</span></div>
     <div class="stat"><span class="k">Андердог (&lt;60¢)</span><span class="v" style="color:var(--violet)" id="s-dog">—</span><span class="s">бэктест с 06.2026: +17.9% на ставку</span></div>
+    <div class="stat"><span class="k">Вход ≤ 90¢</span><span class="v" style="color:var(--green)" id="s-cheap">—</span><span class="s" id="s-cheap-s">без дорогих входов, где выигрыш — центы</span></div>
     <div class="stat"><span class="k">Средняя цена входа</span><span class="v" id="s-px">—</span><span class="s" id="s-px-s"></span></div>
   </section>
   <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$10 НА СТАВКУ</span></div>
@@ -248,6 +252,7 @@ function render(D) {
   $('s-bal-s').textContent = (pnl >= 0 ? '+' : '') + money(pnl) + ' с ' + D.started.slice(8, 10) + '.' + D.started.slice(5, 7);
   $('s-bets').textContent = `${D.closed} / ${D.wins}`; $('s-bets-s').textContent = `открыто ${D.open} · без ставки ${D.skipped}`;
   $('s-fav').textContent = grp(D.fav); $('s-dog').textContent = grp(D.dog);
+  if (D.cheap) { $('s-cheap').textContent = grp(D.cheap); $('s-cheap-s').textContent = `без дорогих входов · открыто ${D.cheap.open}`; }
   $('s-px').textContent = D.avg_fill10 ? c(D.avg_fill10) : '—'; $('s-px-s').textContent = `на $50 хватало: ${D.fill50_ok}`;
   curve(D.curve);
   const st = { open: 'идёт матч', won: 'выиграно', lost: 'проиграно', skip: 'без ставки' };
