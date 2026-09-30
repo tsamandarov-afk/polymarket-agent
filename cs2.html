@@ -225,7 +225,7 @@
     <div class="stat"><span class="k">Вход ≤ 90¢</span><span class="v" style="color:var(--green)" id="s-cheap">—</span><span class="s" id="s-cheap-s">без дорогих входов, где выигрыш — центы</span></div>
     <div class="stat"><span class="k">Средняя цена входа</span><span class="v" id="s-px">—</span><span class="s" id="s-px-s"></span></div>
   </section>
-  <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$10 НА СТАВКУ</span></div>
+  <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$50 ВХОД ≤ 90¢ · $15 ДОРОЖЕ (ДО 30.09 — $10)</span></div>
     <div class="pb"><svg id="eq"></svg></div></section>
   <section class="panel p-amber"><div class="ph"><span class="n">02</span>Ликвидность стакана<span class="chip" style="color:var(--amber)">ВХОДЫ ≤ 90¢</span></div>
     <div class="pb"><table class="tbl" id="liq"></table>
@@ -236,7 +236,7 @@
     <ol class="rules">
       <li>Матчи CS2 в формате BO3 (до двух побед) на Polymarket.</li>
       <li>Как только в рынке «победитель карты 1» одна команда дошла до 95¢ — считаем, что она выиграла первую карту.</li>
-      <li>Сразу читаем живой стакан рынка «победитель матча» и виртуально покупаем эту команду на $10 по реальной цене. Через 2 минуты цена записывается ещё раз.</li>
+      <li>Сразу читаем живой стакан рынка «победитель матча» и виртуально покупаем эту команду по реальной цене стакана: если цена для $50 не выше 90¢ — ставка $50, если дороже — $15 по цене для $15 (до 30.09 ставка была $10, днём 30.09 — $50 на любой вход). Дороже 99¢ — без ставки. Через 2 минуты цена записывается ещё раз.</li>
       <li>Держим до конца матча. Комиссия Polymarket на спорт учтена: доли × 0.03 × цена × (1 − цена).</li>
     </ol>
     <p class="note">Бэктест: 7706 матчей CS2 (10.2025–09.2026). Победитель первой карты берёт матч в 79% случаев. С июня 2026: фаворит +4.3%, андердог +17.9% на ставку, в плюсе почти каждый месяц. Считалось по ценам сделок — здесь проверяем по реальному стакану.</p>
