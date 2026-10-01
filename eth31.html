@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETH · стратегия 31</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0A0E15;
+    --panel: #111723;
+    --panel2: #0D131D;
+    --line: #243045;
+    --hair: #1A2332;
+    --ink: #E4E9F2;
+    --muted: #8793A6;
+    --faint: #566275;
+    --blue: #4C8DFF;
+    --blue-soft: rgba(76,141,255,.14);
+    --green: #25C48F;
+    --green-soft: rgba(37,196,143,.14);
+    --red: #FF5D7D;
+    --red-soft: rgba(255,93,125,.14);
+    --amber: #F0B23A;
+    --amber-soft: rgba(240,178,58,.13);
+    --violet: #9C7DFF;
+    --violet-soft: rgba(156,125,255,.15);
+    --teal: #2DC3D0;
+    --teal-soft: rgba(45,195,208,.13);
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
+  body {
+    margin: 0; color: var(--ink); font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums;
+    padding-inline: 16px; padding-block: 16px 28px;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 12px; }
+  .up { text-transform: uppercase; letter-spacing: .12em; }
+  .muted { color: var(--muted); }
+  .faint { color: var(--faint); }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+
+  header { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .logo { width: 46px; height: 46px; border-radius: 6px; background: var(--violet); display: grid; place-items: center; flex-shrink: 0; box-shadow: 0 0 24px rgba(156,125,255,.35); }
+  .brand { display: grid; gap: 3px; }
+  .brand h1 { margin: 0; font-size: 22px; font-weight: 500; letter-spacing: .06em; }
+  .brand h1 span { color: var(--faint); font-weight: 300; }
+  .brand h1 em { font-style: normal; font-size: 13px; letter-spacing: .14em; color: var(--muted); font-weight: 400; }
+  .brand p { margin: 0; font-size: 10px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+  .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .pill { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--violet); }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .25; } }
+  .clock { text-align: right; }
+  .clock b { display: block; font-size: 24px; font-weight: 300; letter-spacing: .04em; }
+  .clock small { font-size: 10px; color: var(--muted); letter-spacing: .1em; }
+
+  .strip { display: flex; align-items: stretch; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--panel2); overflow: hidden; font-size: 10.5px; }
+  .strip .tag { background: var(--violet-soft); color: var(--violet); padding: 9px 12px; white-space: nowrap; letter-spacing: .12em; font-weight: 700; flex-shrink: 0; }
+  .ticker { overflow: hidden; flex: 1; position: relative; }
+  .ticker-track { display: flex; gap: 34px; padding: 9px 16px; white-space: nowrap; width: max-content; animation: slide 46s linear infinite; }
+  .ticker-track span b { font-weight: 500; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); background: var(--panel); }
+  .stat { padding: 14px 16px; border-right: 1px solid var(--hair); display: grid; gap: 4px; min-width: 0; }
+  .stat:last-child { border-right: 0; }
+  .stat .k { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .stat .v { font-size: clamp(20px, 2.4vw, 30px); font-weight: 300; letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat .s { font-size: 10px; color: var(--muted); }
+
+  .grid-main { display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .panel { border: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-width: 0; }
+  .ph { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--hair); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .ph .n { color: var(--faint); font-weight: 400; }
+  .ph .chip { margin-left: auto; font-size: 9.5px; font-weight: 500; padding: 3px 8px; border: 1px solid currentColor; border-radius: 3px; letter-spacing: .1em; }
+  .pb { padding: 12px; display: grid; gap: 10px; }
+  .p-blue { border-color: #22375A; } .p-blue .ph { background: linear-gradient(90deg, var(--blue-soft), transparent 70%); }
+  .p-red { border-color: #4A2433; } .p-red .ph { background: linear-gradient(90deg, var(--red-soft), transparent 70%); }
+  .p-green { border-color: #1B4436; } .p-green .ph { background: linear-gradient(90deg, var(--green-soft), transparent 70%); }
+  .p-violet { border-color: #352C55; } .p-violet .ph { background: linear-gradient(90deg, var(--violet-soft), transparent 70%); }
+  .p-amber { border-color: #4A3B1C; } .p-amber .ph { background: linear-gradient(90deg, var(--amber-soft), transparent 70%); }
+  .p-teal { border-color: #1A4146; } .p-teal .ph { background: linear-gradient(90deg, var(--teal-soft), transparent 70%); }
+
+  .legend { display: flex; gap: 14px; font-size: 9.5px; color: var(--muted); letter-spacing: .08em; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .minirow { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--hair); }
+  .minirow div { padding: 10px 12px; border-right: 1px solid var(--hair); display: grid; gap: 3px; }
+  .minirow div:last-child { border-right: 0; }
+  .minirow small { font-size: 9.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .minirow b { font-size: 15px; font-weight: 400; }
+  .price-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .price-row .big { font-size: clamp(26px, 3.2vw, 38px); font-weight: 300; letter-spacing: .02em; }
+  .ohlc { display: flex; gap: 14px; font-size: 10px; color: var(--muted); flex-wrap: wrap; }
+
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tab { font-family: var(--mono); font-size: 10.5px; padding: 5px 9px; border: 1px solid var(--hair); background: var(--panel2); color: var(--muted); cursor: pointer; border-radius: 3px; }
+  .tab:hover { border-color: var(--line); color: var(--ink); }
+  .tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tab:focus-visible { outline: 2px solid var(--violet); outline-offset: 1px; }
+
+  #bt-equity { width: 100%; height: 330px; display: block; }
+  #chart { width: 100%; height: 330px; display: block; }
+  #live-equity { width: 100%; height: 120px; display: block; }
+
+  /* помесячная таблица */
+  .heat-wrap { overflow-x: auto; }
+  .heat { width: 100%; border-collapse: separate; border-spacing: 3px; font-size: 10.5px; min-width: 760px; }
+  .heat th { font-size: 9px; font-weight: 400; color: var(--faint); letter-spacing: .1em; text-transform: uppercase; padding: 2px 0 4px; }
+  .heat td { text-align: center; padding: 9px 2px; border-radius: 3px; background: var(--panel2); white-space: nowrap; }
+  .heat td.y { text-align: left; background: none; font-weight: 500; letter-spacing: .08em; padding-left: 4px; }
+  .heat td.tot { font-weight: 700; border: 1px solid var(--line); }
+  .heat td.x { color: var(--faint); }
+  .heat td small { display: block; font-size: 8.5px; color: var(--muted); margin-top: 2px; }
+
+  .radar { display: grid; gap: 8px; }
+  .radar-h, .radar-row { display: grid; grid-template-columns: 40px 1fr 1fr 64px; gap: 8px; align-items: center; }
+  .radar-h { font-size: 9px; color: var(--faint); letter-spacing: .1em; text-transform: uppercase; }
+  .radar-row { font-size: 10.5px; }
+  .scale { height: 8px; background: var(--panel2); border: 1px solid var(--hair); position: relative; }
+  .scale b { position: absolute; top: 0; bottom: 0; }
+  .scale b.lo { background: var(--green-soft); } .scale b.hi { background: var(--red-soft); }
+  .scale i { position: absolute; top: -3px; width: 3px; height: 12px; background: var(--ink); border-radius: 1px; transition: left 1s ease; }
+  .st { font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; text-align: right; }
+
+  .list { display: grid; max-height: 214px; overflow: auto; }
+  .row { display: grid; grid-template-columns: 64px 40px 1fr auto; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--hair); font-size: 10.5px; align-items: baseline; }
+  .row:last-child { border-bottom: 0; }
+  .row time { color: var(--faint); }
+  .empty { color: var(--faint); font-size: 10.5px; line-height: 1.6; }
+
+  .tbl { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  .tbl th { font-size: 9px; font-weight: 400; color: var(--faint); letter-spacing: .1em; text-transform: uppercase; text-align: right; padding: 0 0 6px; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; }
+  .tbl td { text-align: right; padding: 6px 0; border-top: 1px dashed var(--hair); }
+  .tbl tr.cur td { color: var(--violet); }
+
+  .ledger-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .ledger-h span { font-weight: 400; color: var(--muted); font-size: 10px; }
+  .coins { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+  .coin { border: 1px solid var(--line); background: var(--panel); padding: 10px; display: grid; gap: 7px; justify-items: center; cursor: pointer; transition: transform .2s, border-color .2s; font-family: var(--mono); color: var(--ink); }
+  .coin:hover { transform: translateY(-2px); }
+  .coin.on { border-color: var(--ink); }
+  .coin:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+  .coin .top { display: flex; justify-content: space-between; width: 100%; font-size: 9px; color: var(--faint); }
+  .ava { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; }
+  .coin .nm { font-size: 13px; font-weight: 500; letter-spacing: .12em; }
+  .coin .px { font-size: 12px; }
+  .coin .kv { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; width: 100%; font-size: 9.5px; color: var(--muted); }
+  .coin .kv b { color: var(--ink); font-weight: 400; text-align: right; }
+  .coin svg { width: 100%; height: 28px; display: block; }
+
+  .rules { margin: 0; padding-left: 16px; font-size: 10.5px; line-height: 1.7; color: var(--muted); }
+  .rules b { color: var(--ink); font-weight: 500; }
+  footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+
+  .tfbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); background: var(--panel2); }
+  .tfb { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+         background: none; border: 0; padding: 11px 14px; cursor: pointer; display: grid; gap: 3px; text-align: left; border-bottom: 2px solid transparent; }
+  .tfb small { font-size: 9.5px; font-weight: 400; letter-spacing: .1em; color: var(--faint); }
+  .tfb:hover { color: var(--ink); }
+  .tfb.on { color: var(--ink); background: var(--violet-soft); border-bottom-color: var(--violet); }
+  .tfb:focus-visible { outline: 2px solid var(--violet); outline-offset: -2px; }
+
+  @media (max-width: 1080px) {
+    .coins { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-3 .panel:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 820px) {
+    .tfbar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-main, .grid-3 { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stat { border-bottom: 1px solid var(--hair); }
+    .stat:nth-child(2n) { border-right: 0; }
+    .stat:last-child { grid-column: 1 / -1; border-bottom: 0; }
+    .minirow { grid-template-columns: repeat(2, 1fr); }
+    .clock { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .coins { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #chart, #bt-equity { height: 260px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ticker-track, .dot { animation: none; } }
+</style>
+<style>
+  .tfbar { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+  a.tfb { text-decoration: none; display: grid; place-items: center; gap: 2px; text-align: center; }
+  .note { color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .scroll { overflow-x: auto; }
+  .stats.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .stats.six .stat .v { font-size: clamp(16px, 1.7vw, 24px); }
+  #eq { width: 100%; height: 200px; display: block; }
+  .chartbox { position: relative; }
+  #cv { width: 100%; height: 520px; display: block; cursor: crosshair; }
+  #tip { position: absolute; top: 6px; left: 8px; font-size: 10.5px; color: var(--muted); pointer-events: none; line-height: 1.6; background: rgba(11,15,22,.78); padding: 2px 6px; border-radius: 3px; }
+  #tip b { color: var(--ink); font-weight: 500; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 10px; color: var(--muted); margin-top: 8px; }
+  .legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 5px; }
+  .rng { display: flex; gap: 4px; }
+  .posbox { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; font-size: 11px; }
+  .posbox span { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: 3px; }
+  @media (max-width: 820px) { .tfbar, .stats.six { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } .posbox { grid-template-columns: repeat(2, minmax(0, 1fr)); } #cv { height: 420px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>ETH <span>/</span> <em>СТРАТЕГИЯ 31 · ФЬЮЧЕРСЫ 1 ЧАС</em></h1>
+      <p>рывок по тренду · лонг и шорт · стоп подтягивается за ценой · счёт $10 000, риск 2%</p>
+    </div>
+    <div class="hdr-right"><span class="pill"><i class="dot"></i>наблюдение · без реальных денег</span></div>
+  </header>
+  <nav class="tfbar" aria-label="Раздел">
+    <a class="tfb" href="index.html">15 минут<small>основной раздел</small></a>
+    <a class="tfb" href="index.html#5m">5 минут<small>отдельное наблюдение с 27.09</small></a>
+    <a class="tfb" href="index.html#kalshi15">Kalshi 15 минут<small>12 монет, с 29.09</small></a>
+    <a class="tfb" href="momentum.html">Инерция BTC 5m<small>стратегия 2, с 29.09</small></a>
+    <a class="tfb" href="cs2.html">CS2 · карта 1<small>стратегия 5, с 29.09</small></a>
+  
+    <a class="tfb on" href="eth31.html" style="text-decoration:none;display:grid;place-items:center;gap:2px">ETH · стратегия 31<small>фьючерсы 1ч, демо с 01.10</small></a>
+  </nav>
+
+  <section class="stats six" aria-label="Показатели">
+    <div class="stat"><span class="k">Виртуальный счёт</span><span class="v" id="s-bal">—</span><span class="s" id="s-bal-s"></span></div>
+    <div class="stat"><span class="k">Сделок / в плюс</span><span class="v" style="color:var(--teal)" id="s-tr">—</span><span class="s" id="s-tr-s"></span></div>
+    <div class="stat"><span class="k">Средняя сделка</span><span class="v" style="color:var(--violet)" id="s-avg">—</span><span class="s">бэктест: +0.17…+0.24R</span></div>
+    <div class="stat"><span class="k">Макс. просадка</span><span class="v" style="color:var(--amber)" id="s-dd">—</span><span class="s">бэктест 2024–26: до −26%</span></div>
+    <div class="stat"><span class="k">Серия убытков</span><span class="v" id="s-st">—</span><span class="s">бэктест: до 9–11 подряд</span></div>
+    <div class="stat"><span class="k">Сейчас</span><span class="v" id="s-pos">—</span><span class="s" id="s-pos-s"></span></div>
+  </section>
+  <section class="panel p-blue"><div class="ph"><span class="n">01</span>График ETHUSDT · 1 час<span class="chip" style="color:var(--blue)">ВРЕМЯ ТБИЛИСИ</span>
+      <div class="rng" style="margin-left:auto"><button class="tab" data-n="72">3 дня</button><button class="tab on" data-n="240">10 дней</button><button class="tab" data-n="720">30 дней</button></div></div>
+    <div class="pb"><div class="chartbox"><canvas id="cv"></canvas><div id="tip"></div></div>
+      <div class="legend">
+        <span><i style="border-color:#4C8DFF"></i>линия тренда VIDYA</span>
+        <span><i style="border-color:#F0B23A;border-top-style:dashed"></i>стоп (подтягивается за ценой)</span>
+        <span style="color:#25C48F">▲ вход в лонг</span><span style="color:#FF5D7D">▼ вход в шорт</span><span>✕ выход</span>
+        <span>заливка — сделка: зелёная в плюс, красная в минус</span><span>бледные — до старта демо, в счёт не идут</span>
+        <span>внизу — рывок цены (Waddah Attar): столбик выше обеих линий = сигнал</span>
+      </div></div></section>
+  <section class="panel p-amber" id="pos-panel" style="display:none"><div class="ph"><span class="n">02</span>Открытая позиция<span class="chip" style="color:var(--amber)" id="pos-chip"></span></div>
+    <div class="pb"><div class="posbox" id="posbox"></div></div></section>
+  <section class="panel p-green"><div class="ph"><span class="n">03</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">РИСК 2% НА СДЕЛКУ · СЛОЖНЫЙ ПРОЦЕНТ</span></div>
+    <div class="pb"><svg id="eq"></svg></div></section>
+  <section class="panel p-blue"><div class="ph"><span class="n">04</span>Сделки<span class="chip" style="color:var(--blue)">ВРЕМЯ ТБИЛИСИ</span></div>
+    <div class="pb scroll"><table class="tbl" id="tbl" style="min-width:860px"></table></div></section>
+  <section class="panel"><div class="ph"><span class="n">05</span>Правила</div><div class="pb">
+    <ol class="rules">
+      <li>Фьючерс ETHUSDT на Binance, часовые свечи, лонг и шорт. Решение — раз в час на закрытии свечи, вход по открытию следующей.</li>
+      <li><b>Рывок:</b> столбик Waddah Attar (300, EMA 40/80, полосы 40 × 4) впервые поднялся выше линии взрыва и мёртвой зоны.</li>
+      <li><b>Тренд:</b> цена закрылась выше VIDYA(14) для лонга, ниже — для шорта.</li>
+      <li><b>Импульс:</b> Chande Momentum(50) выше своей средней CMA(20) для лонга, ниже — для шорта.</li>
+      <li><b>Объём:</b> выше своей средней EMA(40). В субботу и воскресенье (UTC) входов нет.</li>
+      <li><b>Стоп:</b> 3 × ATR(14) от цены закрытия; каждый час подтягивается за ценой, назад не двигается. Цели по прибыли нет.</li>
+      <li><b>Досрочный выход:</b> индикатор Squeeze Momentum (80) сменил знак против позиции.</li>
+      <li>Счёт $10 000, риск 2% текущего счёта на сделку. Учтены комиссия 0.12% за круг и реальная плата за удержание позиции.</li>
+    </ol>
+    <p class="note">Бэктест на тех же фьючерсных ценах: 01.2024–08.2026 $10 000 → $37 800–42 800, просадка до −26%, в плюс 37–39% сделок, около 11–15 сделок в месяц.
+      Но 2021–2023 стратегия на эфире была около нуля (2021: −19…−20R). Прибыль приходит редкими крупными сделками, между ними — серии мелких убытков.</p>
+  </div></section>
+
+  <footer><span id="foot-l">Загружаю данные…</span><span>Виртуальные сделки по ценам фьючерса Binance. Не инвестиционный совет.</span></footer>
+</div>
+<script>
+
+const FILE = 'data_eth31.json';
+const $ = (id) => document.getElementById(id);
+const money = (x, d = 0) => (x < 0 ? '−$' : '$') + Math.abs(x).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const sgn = (x, d = 0) => (x >= 0 ? '+' : '−') + '$' + Math.abs(x).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const TZ = 'Asia/Tbilisi';
+const fmtT = (ms) => new Date(ms).toLocaleString('ru-RU', { timeZone: TZ, day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+const fmtD = (ms) => new Date(ms).toLocaleString('ru-RU', { timeZone: TZ, day: '2-digit', month: '2-digit' });
+const px = (x) => x == null ? '—' : x.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const GREEN = '#25C48F', RED = '#FF5D7D', BLUE = '#4C8DFF', AMBER = '#F0B23A', GRID = '#1A2333', MUTED = '#8793A6';
+let D = null, NB = 240, hover = null;
+
+function curve(pts, start) {
+  const svg = $('eq'); const W = svg.clientWidth || 600, H = 200, p = 26;
+  if (!pts || pts.length < 2) { svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = `<text x="${W / 2}" y="${H / 2}" fill="${MUTED}" font-size="11" text-anchor="middle">кривая появится после первой закрытой сделки</text>`; return; }
+  const ys = pts.map((q) => q[1]), lo = Math.min(...ys, start), hi = Math.max(...ys, start);
+  const X = (i) => p + (W - 2 * p) * i / (pts.length - 1), Y = (v) => H - p - (H - 2 * p) * (v - lo) / ((hi - lo) || 1);
+  const d = pts.map((q, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(q[1]).toFixed(1)).join(' ');
+  const col = ys[ys.length - 1] >= start ? GREEN : RED;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = `<line x1="${p}" x2="${W - p}" y1="${Y(start)}" y2="${Y(start)}" stroke="#243045" stroke-dasharray="3 3"/>` +
+    `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.6"/>` + pts.map((q, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(q[1]).toFixed(1)}" r="2" fill="${col}"/>`).join('') +
+    `<text x="${p}" y="14" fill="${MUTED}" font-size="10">${money(hi)}</text><text x="${p}" y="${H - 6}" fill="${MUTED}" font-size="10">${money(lo)}</text>`;
+}
+
+function draw() {
+  if (!D) return;
+  const C = D.chart, cv = $('cv'), dpr = window.devicePixelRatio || 1;
+  const W = cv.clientWidth, H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr;
+  const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H); g.font = '10px "JetBrains Mono", monospace';
+  const n = Math.min(NB, C.t.length), s0 = C.t.length - n, padR = 58, padL = 6, hTop = Math.round(H * 0.7), gap = 14, hBot = H - hTop - gap - 16;
+  const bw = (W - padL - padR) / n, X = (i) => padL + bw * (i - s0 + 0.5), t0 = C.t[s0], HOUR = 3600000;
+  const XI = (ms) => X(s0 + (ms - t0) / HOUR);
+  // price scale
+  let lo = Infinity, hi = -Infinity;
+  for (let i = s0; i < C.t.length; i++) { lo = Math.min(lo, C.l[i]); hi = Math.max(hi, C.h[i]); }
+  C.marks.forEach((m) => m.path.forEach((p) => { if (p[0] >= t0) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); } }));
+  const padP = (hi - lo) * 0.04; lo -= padP; hi += padP;
+  const Y = (v) => 6 + (hTop - 12) * (hi - v) / (hi - lo);
+  // grid + price labels
+  g.strokeStyle = GRID; g.fillStyle = MUTED; g.lineWidth = 1; g.textAlign = 'left';
+  const step = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000].find((s) => (hi - lo) / s <= 7) || 1000;
+  for (let v = Math.ceil(lo / step) * step; v < hi; v += step) { g.beginPath(); g.moveTo(padL, Y(v)); g.lineTo(W - padR, Y(v)); g.stroke(); g.fillText(v.toFixed(0), W - padR + 6, Y(v) + 3); }
+  // day separators
+  g.textAlign = 'center';
+  const every = n <= 72 ? 1 : n <= 240 ? 2 : 5; let dn = 0;
+  for (let i = s0; i < C.t.length; i++) {
+    const hr = new Date(C.t[i]).toLocaleString('en-GB', { timeZone: TZ, hour: '2-digit', hour12: false });
+    if (hr === '00') { if (dn++ % every === 0) { g.beginPath(); g.moveTo(X(i) - bw / 2, 0); g.lineTo(X(i) - bw / 2, H - 16); g.stroke(); g.fillText(fmtD(C.t[i]), X(i) - bw / 2, H - 4); } }
+  }
+  // trade spans
+  C.marks.forEach((m) => {
+    if (m.t_in == null) return;
+    const a = Math.max(XI(m.t_in) - bw / 2, padL), z = Math.min(XI(m.status === 'closed' ? m.t_out : C.t[C.t.length - 1]) + bw / 2, W - padR);
+    if (z <= a) return;
+    g.globalAlpha = m.counted ? 0.13 : 0.05; g.fillStyle = m.R > 0 ? GREEN : RED; g.fillRect(a, 0, z - a, hTop); g.globalAlpha = 1;
+  });
+  // candles
+  for (let i = s0; i < C.t.length; i++) {
+    const up = C.c[i] >= C.o[i]; g.strokeStyle = g.fillStyle = up ? GREEN : RED;
+    g.beginPath(); g.moveTo(X(i), Y(C.h[i])); g.lineTo(X(i), Y(C.l[i])); g.stroke();
+    const y1 = Y(Math.max(C.o[i], C.c[i])), y2 = Y(Math.min(C.o[i], C.c[i]));
+    g.fillRect(X(i) - Math.max(bw * 0.32, 0.5), y1, Math.max(bw * 0.64, 1), Math.max(y2 - y1, 1));
+  }
+  // VIDYA
+  g.strokeStyle = BLUE; g.lineWidth = 1.3; g.beginPath();
+  for (let i = s0, f = 1; i < C.t.length; i++) { if (C.vidya[i] == null) continue; f ? g.moveTo(X(i), Y(C.vidya[i])) : g.lineTo(X(i), Y(C.vidya[i])); f = 0; }
+  g.stroke();
+  // stops + markers
+  C.marks.forEach((m) => {
+    const al = m.counted ? 1 : 0.4; g.globalAlpha = al;
+    g.strokeStyle = AMBER; g.lineWidth = 1.2; g.setLineDash([4, 3]); g.beginPath(); let f = 1;
+    m.path.forEach((p) => { if (p[0] < t0) return; const x = XI(p[0]); if (f) { g.moveTo(x - bw / 2, Y(p[1])); f = 0; } else g.lineTo(x - bw / 2, Y(p[1])); g.lineTo(x + bw / 2, Y(p[1])); });
+    g.stroke(); g.setLineDash([]);
+    g.textAlign = 'center'; g.font = '13px "JetBrains Mono", monospace';
+    if (m.t_in >= t0) { g.fillStyle = m.dir > 0 ? GREEN : RED; const i = s0 + Math.round((m.t_in - t0) / HOUR);
+      g.fillText(m.dir > 0 ? '▲' : '▼', XI(m.t_in), m.dir > 0 ? Y(C.l[i]) + 15 : Y(C.h[i]) - 6);
+      g.strokeStyle = g.fillStyle; g.lineWidth = 1; g.beginPath(); g.moveTo(XI(m.t_in) - bw, Y(m.entry)); g.lineTo(XI(m.t_in) + bw, Y(m.entry)); g.stroke(); }
+    if (m.status === 'closed' && m.t_out >= t0) { g.fillStyle = '#E8EEF7'; g.fillText('✕', XI(m.t_out), Y(m.exit) + 4);
+      if (m.counted || n <= 240) { g.font = '9.5px "JetBrains Mono", monospace'; g.fillStyle = m.R > 0 ? GREEN : RED; g.fillText((m.R > 0 ? '+' : '') + m.R.toFixed(1) + 'R', XI(m.t_out), Y(m.exit) + (m.dir > 0 ? 17 : -9)); } }
+    g.font = '10px "JetBrains Mono", monospace'; g.globalAlpha = 1;
+  });
+  // last price tag
+  const lp = C.c[C.c.length - 1]; g.fillStyle = '#E8EEF7'; g.fillRect(W - padR + 2, Y(lp) - 8, padR - 4, 16); g.fillStyle = '#0B0F16'; g.textAlign = 'left'; g.fillText(lp.toFixed(1), W - padR + 6, Y(lp) + 3);
+  // WAE pane
+  const yb = hTop + gap; let mx = 0;
+  for (let i = s0; i < C.t.length; i++) mx = Math.max(mx, Math.abs(C.wae[i] || 0), C.ex[i] || 0, C.dz[i] || 0);
+  const YB = (v) => yb + hBot - hBot * v / (mx || 1);
+  g.strokeStyle = GRID; g.strokeRect(padL, yb, W - padL - padR, hBot);
+  for (let i = s0; i < C.t.length; i++) { const v = C.wae[i]; if (v == null) continue; const a = Math.abs(v), sig = a > (C.ex[i] || 0) && a > (C.dz[i] || 0);
+    g.globalAlpha = sig ? 1 : 0.38; g.fillStyle = v >= 0 ? GREEN : RED; g.fillRect(X(i) - Math.max(bw * 0.36, 0.5), YB(a), Math.max(bw * 0.72, 1), yb + hBot - YB(a)); }
+  g.globalAlpha = 1;
+  [[C.ex, AMBER, 'взрыв'], [C.dz, MUTED, 'мёртвая зона']].forEach(([arr, col, name]) => { g.strokeStyle = col; g.lineWidth = 1.1; g.beginPath(); let f = 1, last = null;
+    for (let i = s0; i < C.t.length; i++) { if (arr[i] == null) continue; f ? g.moveTo(X(i), YB(arr[i])) : g.lineTo(X(i), YB(arr[i])); f = 0; last = arr[i]; } g.stroke();
+    if (last != null) { g.fillStyle = col; g.textAlign = 'left'; g.fillText(name, W - padR + 6, Math.min(Math.max(YB(last) + 3, yb + 9), yb + hBot)); } });
+  // crosshair
+  if (hover != null && hover >= s0 && hover < C.t.length) { g.strokeStyle = '#3A4A63'; g.setLineDash([2, 3]); g.beginPath(); g.moveTo(X(hover), 0); g.lineTo(X(hover), H - 16); g.stroke(); g.setLineDash([]);
+    const i = hover, m = C.marks.find((q) => q.t_in != null && C.t[i] >= q.t_in && C.t[i] <= (q.status === 'closed' ? q.t_out : Infinity));
+    const st = m && m.path.find((p) => p[0] === C.t[i]);
+    $('tip').innerHTML = `<b>${fmtT(C.t[i])}</b> · O ${px(C.o[i])} H ${px(C.h[i])} L ${px(C.l[i])} C <b>${px(C.c[i])}</b> · VIDYA ${px(C.vidya[i])}` +
+      (m ? `<br>${m.dir > 0 ? 'лонг' : 'шорт'} с ${px(m.entry)}${st ? ' · стоп ' + px(st[1]) : ''}${m.counted ? '' : ' · до старта демо'}` : ''); }
+  else $('tip').innerHTML = '';
+  cv._geo = { s0, bw, padL, n };
+}
+
+function render(d) {
+  D = d; const pnl = D.equity - D.start;
+  $('s-bal').textContent = money(D.equity); $('s-bal').className = 'v ' + (pnl >= 0 ? 'pos' : 'neg');
+  $('s-bal-s').textContent = `${sgn(pnl)} (${(100 * pnl / D.start).toFixed(1)}%) с ${D.started.slice(8, 10)}.${D.started.slice(5, 7)}`;
+  $('s-tr').textContent = `${D.closed} / ${D.wins}`; $('s-tr-s').textContent = D.closed ? `${Math.round(100 * D.wins / D.closed)}% в плюс · лонг ${D.longs} · шорт ${D.shorts}` : 'первая сделка — после нового сигнала';
+  $('s-avg').textContent = D.avg_r == null ? '—' : (D.avg_r >= 0 ? '+' : '') + D.avg_r.toFixed(2) + 'R';
+  $('s-dd').textContent = D.max_dd.toFixed(1) + '%'; $('s-st').textContent = D.streak;
+  const o = D.open;
+  $('s-pos').textContent = o ? (o.dir > 0 ? 'ЛОНГ' : 'ШОРТ') : D.pending ? 'СИГНАЛ' : 'вне рынка'; $('s-pos').className = 'v ' + (o ? (o.pnl_open >= 0 ? 'pos' : 'neg') : '');
+  $('s-pos-s').textContent = o ? `${sgn(o.pnl_open)} · ${(o.R >= 0 ? '+' : '') + o.R.toFixed(2)}R` : D.pending ? `вход ${D.pending.dir > 0 ? 'в лонг' : 'в шорт'} на открытии следующего часа` : `ETH ${px(D.last_price)}`;
+  $('pos-panel').style.display = o ? '' : 'none';
+  if (o) { $('pos-chip').textContent = (o.dir > 0 ? 'ЛОНГ' : 'ШОРТ') + ' С ' + fmtT(o.t_in);
+    $('posbox').innerHTML = [['Вход', px(o.entry)], ['Стоп сейчас', px(o.stop)], ['Цена', px(o.last)], ['Объём', `${o.qty.toFixed(3)} ETH · ${money(o.notional)}`], ['Плечо', o.lev.toFixed(2) + 'x'], ['Риск сделки', money(o.stake)]]
+      .map(([k, v]) => `<div><span>${k}</span>${v}</div>`).join(''); }
+  curve(D.curve, D.start); draw();
+  const why = { sl: 'стоп', trail: 'стоп подтянутый', signal: 'смена импульса' };
+  $('tbl').innerHTML = '<tr><th>вход</th><th>сторона</th><th>цена входа</th><th>стоп</th><th>выход</th><th>цена выхода</th><th>причина</th><th>часов</th><th>плечо</th><th>R</th><th>P&L</th><th>счёт</th></tr>' +
+    (D.trades.length ? D.trades.map((t) => `<tr><td>${fmtT(t.t_in)}</td><td style="color:${t.dir > 0 ? GREEN : RED}">${t.dir > 0 ? 'лонг' : 'шорт'}</td><td>${px(t.entry)}</td><td>${px(t.sl)}</td>` +
+      `<td>${fmtT(t.t_out)}</td><td>${px(t.exit)}</td><td>${why[t.why] || t.why}</td><td>${t.bars}</td><td>${t.lev.toFixed(2)}x</td>` +
+      `<td class="${t.Rnet > 0 ? 'pos' : 'neg'}">${(t.Rnet > 0 ? '+' : '') + t.Rnet.toFixed(2)}</td><td class="${t.pnl > 0 ? 'pos' : 'neg'}">${sgn(t.pnl)}</td><td>${money(t.bal)}</td></tr>`).join('')
+      : '<tr><td colspan="12" style="text-align:center;color:var(--muted)">сделок пока нет — демо запущено 01.10.2026</td></tr>');
+  $('foot-l').textContent = 'Обновлено ' + new Date(D.generated).toLocaleString('ru-RU', { timeZone: TZ }) + ' · последняя свеча ' + fmtT(D.last_bar);
+}
+async function load() {
+  try { const r = await fetch(FILE + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw 0; render(await r.json()); }
+  catch (e) { $('foot-l').textContent = 'Данные ещё не опубликованы'; }
+}
+document.querySelector('.rng').addEventListener('click', (e) => { const b = e.target.closest('[data-n]'); if (!b) return; NB = +b.dataset.n;
+  document.querySelectorAll('.rng .tab').forEach((t) => t.classList.toggle('on', t === b)); draw(); });
+$('cv').addEventListener('mousemove', (e) => { const q = $('cv')._geo; if (!q) return; const r = $('cv').getBoundingClientRect();
+  hover = q.s0 + Math.floor((e.clientX - r.left - q.padL) / q.bw); draw(); });
+$('cv').addEventListener('mouseleave', () => { hover = null; draw(); });
+addEventListener('resize', () => { if (D) { curve(D.curve, D.start); draw(); } });
+load(); setInterval(load, 120000);
+
+</script>
+</body>
+</html>
