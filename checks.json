@@ -1,0 +1,211 @@
+{
+ "generated": "2026-10-05T12:22:45.651403+00:00",
+ "ok": 34,
+ "total": 34,
+ "results": [
+  {
+   "group": "Общее",
+   "name": "В наблюдателе нет ZEC",
+   "ok": true,
+   "detail": "BTC, ETH, SOL, XRP, DOGE, BNB"
+  },
+  {
+   "group": "Общее",
+   "name": "Потолок цены входа 55¢",
+   "ok": true,
+   "detail": "0.55"
+  },
+  {
+   "group": "Общее",
+   "name": "Варианты Polymarket: только «≤ 55¢»",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "group": "Общее",
+   "name": "Kalshi использует свои настройки",
+   "ok": true,
+   "detail": "потолок 90¢, 2 подбора"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Новые ставки без ZEC",
+   "ok": true,
+   "detail": "новых ставок: 0"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Новые ставки не дороже 55¢",
+   "ok": true,
+   "detail": "макс. цена входа: 0.000"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Нет слишком дорогих ставок в итогах",
+   "ok": true,
+   "detail": "в итогах 95 ставок"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Деньги: прибыль = доли − ставка − комиссия",
+   "ok": true,
+   "detail": "проверено: 95"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Комиссия по формуле Polymarket",
+   "ok": true,
+   "detail": "доли × 0.07 × p × (1−p)"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Исход Polymarket совпадает со свечой Binance",
+   "ok": true,
+   "detail": "90 из 95 (94.7%)"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Нет зависших ставок",
+   "ok": true,
+   "detail": "открытых старше 3 ч нет"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Сайт показывает один вариант",
+   "ok": true,
+   "detail": "cheap"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Сайт без ZEC",
+   "ok": true,
+   "detail": "BTC, ETH, SOL, XRP, DOGE, BNB"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Итоги сайта = вариант «≤ 55¢»",
+   "ok": true,
+   "detail": "95 и 95"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Свежие данные на сайте",
+   "ok": true,
+   "detail": "обновлено 2026-10-05T12:16 UTC"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Доля угаданных не ниже безубытка",
+   "ok": true,
+   "detail": "угадано 52.6% из 95, средняя цена входа 0.492"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Новые ставки без ZEC",
+   "ok": true,
+   "detail": "новых ставок: 0"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Новые ставки не дороже 55¢",
+   "ok": true,
+   "detail": "макс. цена входа: 0.000"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Нет слишком дорогих ставок в итогах",
+   "ok": true,
+   "detail": "в итогах 95 ставок"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Деньги: прибыль = доли − ставка − комиссия",
+   "ok": true,
+   "detail": "проверено: 95"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Комиссия по формуле Polymarket",
+   "ok": true,
+   "detail": "доли × 0.07 × p × (1−p)"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Исход Polymarket совпадает со свечой Binance",
+   "ok": true,
+   "detail": "87 из 94 (92.6%)"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Нет зависших ставок",
+   "ok": true,
+   "detail": "открытых старше 3 ч нет"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Сайт показывает один вариант",
+   "ok": true,
+   "detail": "cheap"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Сайт без ZEC",
+   "ok": true,
+   "detail": "BTC, ETH, SOL, XRP, DOGE, BNB"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Итоги сайта = вариант «≤ 55¢»",
+   "ok": true,
+   "detail": "95 и 95"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Свежие данные на сайте",
+   "ok": true,
+   "detail": "обновлено 2026-10-05T12:20 UTC"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Доля угаданных не ниже безубытка",
+   "ok": true,
+   "detail": "угадано 55.8% из 95, средняя цена входа 0.399"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Расчёт сигнала на живых свечах",
+   "ok": true,
+   "detail": "SOL RSI 39.8, %B 0.147"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Других стратегий в расчёте нет",
+   "ok": true,
+   "detail": "подборов (opt_a/opt_b) нет"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Расчёт сигнала на живых свечах",
+   "ok": true,
+   "detail": "SOL RSI 39.8, %B 0.294"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Других стратегий в расчёте нет",
+   "ok": true,
+   "detail": "подборов (opt_a/opt_b) нет"
+  },
+  {
+   "group": "Kalshi (не менялся)",
+   "name": "Все прежние варианты на месте",
+   "ok": true,
+   "detail": "base, cap2, trend, cap2_trend, cheap, opt_a, opt_b"
+  },
+  {
+   "group": "Kalshi (не менялся)",
+   "name": "ZEC в списке монет",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

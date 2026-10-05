@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверки стратегии</title>
+<style>
+  :root { color-scheme: dark; --bg:#0A0E15; --panel:#111723; --line:#243045; --ink:#E4E9F2; --muted:#8793A6; --green:#25C48F; --red:#FF5D7D;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
+  body { margin: 0; padding: 16px 16px 32px; color: var(--ink); font-family: var(--mono); font-size: 12px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  a { color: var(--muted); }
+  h1 { font-size: 16px; font-weight: 500; margin: 12px 0 4px; }
+  .sub { color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+  .sum { display: inline-block; padding: 6px 12px; border: 1px solid var(--line); background: var(--panel); margin-bottom: 14px; }
+  .sum b { font-weight: 700; }
+  section { border: 1px solid var(--line); background: var(--panel); margin-bottom: 12px; }
+  h2 { margin: 0; padding: 8px 12px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .r { display: grid; grid-template-columns: 52px 1fr; gap: 8px; padding: 7px 12px; border-bottom: 1px solid #1A2332; line-height: 1.45; }
+  .r:last-child { border-bottom: 0; }
+  .ok { color: var(--green); font-weight: 700; } .no { color: var(--red); font-weight: 700; }
+  .d { color: var(--muted); display: block; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html">← к наблюдению</a>
+  <h1>Проверки стратегии «Без ZEC, вход ≤ 55¢»</h1>
+  <div class="sub">Polymarket, 5 и 15 минут. Скрипт сверяет журналы ставок, деньги, комиссию, исходы, данные на сайте и расчёт сигнала на живых свечах. Пересчитывается каждые 15 минут. Kalshi не менялся и проверяется только на целостность.</div>
+  <div id="sum" class="sum">загрузка…</div>
+  <div id="out"></div>
+</div>
+<script>
+fetch('checks.json?' + Date.now()).then((r) => r.json()).then((d) => {
+  const bad = d.total - d.ok;
+  document.getElementById('sum').innerHTML = `<b class="${bad ? 'no' : 'ok'}">${d.ok} из ${d.total}</b> проверок пройдено · ${new Date(d.generated).toLocaleString('ru-RU')}`;
+  const g = {}; d.results.forEach((r) => (g[r.group] = g[r.group] || []).push(r));
+  document.getElementById('out').innerHTML = Object.entries(g).map(([n, rs]) => `<section><h2>${n}</h2>` +
+    rs.map((r) => `<div class="r"><span class="${r.ok ? 'ok' : 'no'}">${r.ok ? 'ДА' : 'НЕТ'}</span><span>${r.name}<span class="d">${r.detail || ''}</span></span></div>`).join('') + '</section>').join('');
+}).catch(() => { document.getElementById('sum').textContent = 'проверки ещё не запускались'; });
+</script>
+</body>
+</html>
