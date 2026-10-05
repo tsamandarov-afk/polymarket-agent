@@ -75,6 +75,7 @@
 
   .grid-main { display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .panel[hidden] { display: none; }
   .panel { border: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; min-width: 0; }
   .ph { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--hair); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
   .ph .n { color: var(--faint); font-weight: 400; }
@@ -189,7 +190,7 @@
   @media (prefers-reduced-motion: reduce) { .ticker-track, .dot { animation: none; } }
 </style>
 <style>
-  .tfbar { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; }
+  .tfbar { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
   a.tfb { text-decoration: none; display: grid; place-items: center; gap: 2px; text-align: center; }
   .note { color: var(--muted); font-size: 11px; line-height: 1.6; }
   .scroll { overflow-x: auto; }
@@ -212,9 +213,6 @@
     <a class="tfb" href="index.html#kalshi15">Kalshi 15 минут<small>12 монет, с 29.09</small></a>
     <a class="tfb" href="momentum.html">Инерция BTC 5m<small>стратегия 2, с 29.09</small></a>
     <a class="tfb on" href="cs2.html">CS2 · карта 1<small>стратегия 5, с 29.09</small></a>
-  
-    <a class="tfb" href="eth31.html" style="text-decoration:none;display:grid;place-items:center;gap:2px">ETH · стратегия 31<small>фьючерсы 1ч, демо с 01.10</small></a>
-    <a class="tfb" href="hourly.html" style="text-decoration:none;display:grid;place-items:center;gap:2px">BTC 1 час · модель<small>наблюдение с 03.10</small></a>
   </nav>
 
   <style>.stats.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -228,18 +226,18 @@
     <div class="stat"><span class="k">Вход ≤ 90¢</span><span class="v" style="color:var(--green)" id="s-cheap">—</span><span class="s" id="s-cheap-s">без дорогих входов, где выигрыш — центы</span></div>
     <div class="stat"><span class="k">Средняя цена входа</span><span class="v" id="s-px">—</span><span class="s" id="s-px-s"></span></div>
   </section>
-  <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$50 ВХОД ≤ 90¢ · $15 ДОРОЖЕ (ДО 30.09 — $10)</span></div>
+  <section class="panel p-green"><div class="ph"><span class="n">01</span>Кривая виртуального счёта<span class="chip" style="color:var(--green)">$50 НА СТАВКУ (ДО 30.09 — $10)</span></div>
     <div class="pb"><svg id="eq"></svg></div></section>
   <section class="panel p-amber"><div class="ph"><span class="n">02</span>Ликвидность стакана<span class="chip" style="color:var(--amber)">ВХОДЫ ≤ 90¢</span></div>
     <div class="pb"><table class="tbl" id="liq"></table>
     <p class="note">Сколько раз стакан выдержал такую ставку в момент входа и на сколько центов в среднем дороже цены для $10. Замеры $100–500 — с вечера 29.09.</p></div></section>
   <section class="panel p-blue"><div class="ph"><span class="n">03</span>Матчи<span class="chip" style="color:var(--blue)">ВРЕМЯ ТБИЛИСИ</span></div>
-    <div class="pb scroll"><table class="tbl" id="tbl" style="min-width:820px"></table></div></section>
+    <div class="pb scroll"><p class="note" id="live-sum"></p><table class="tbl" id="tbl" style="min-width:1100px"></table></div></section>
   <section class="panel"><div class="ph"><span class="n">04</span>Правила</div><div class="pb">
     <ol class="rules">
       <li>Матчи CS2 в формате BO3 (до двух побед) на Polymarket.</li>
       <li>Как только в рынке «победитель карты 1» одна команда дошла до 95¢ — считаем, что она выиграла первую карту.</li>
-      <li>Сразу читаем живой стакан рынка «победитель матча» и виртуально покупаем эту команду по реальной цене стакана: если цена для $50 не выше 90¢ — ставка $50, если дороже — $15 по цене для $15 (до 30.09 ставка была $10, днём 30.09 — $50 на любой вход). Дороже 99¢ — без ставки. Через 2 минуты цена записывается ещё раз.</li>
+      <li>Сразу читаем живой стакан рынка «победитель матча» и виртуально покупаем эту команду на $50 по реальной цене стакана для $50 (до 30.09 ставка была $10). Если стакан $50 не выдерживает — без ставки. Через 2 минуты цена записывается ещё раз.</li>
       <li>Держим до конца матча. Комиссия Polymarket на спорт учтена: доли × 0.03 × цена × (1 − цена).</li>
     </ol>
     <p class="note">Бэктест: 7706 матчей CS2 (10.2025–09.2026). Победитель первой карты берёт матч в 79% случаев. С июня 2026: фаворит +4.3%, андердог +17.9% на ставку, в плюсе почти каждый месяц. Считалось по ценам сделок — здесь проверяем по реальному стакану.</p>
@@ -267,10 +265,14 @@ function render(D) {
       `<td>${x.n ? `${x.ok} из ${x.n} (${Math.round(x.ok / x.n * 100)}%)` : 'замеров пока нет'}</td>` +
       `<td>${x.slip != null ? '+' + x.slip.toFixed(1) + '¢' : '—'}</td></tr>`; }).join('');
   const st = { open: 'идёт матч', won: 'выиграно', lost: 'проиграно', skip: 'без ставки' };
-  $('tbl').innerHTML = '<tr><th>время</th><th>матч</th><th>взяла карту 1</th><th>цена $10</th><th>$50</th><th>$100</th><th>$200</th><th>$500</th><th>через 2 мин</th><th>тип</th><th>статус</th><th>P&L</th></tr>' +
-    D.bets.map((b) => `<tr><td>${fmtT(b.t)}</td><td>${(b.title || '').replace('Counter-Strike: ', '').replace(/ \(BO3\).*/, '')}</td><td>${b.team}</td>` +
+  $('tbl').innerHTML = '<tr><th>время</th><th>матч</th><th>взяла карту 1</th><th>цена $10</th><th>$50</th><th>$100</th><th>$200</th><th>$500</th><th>через 2 мин</th><th>тип</th><th>статус</th><th>P&L</th><th>живой бот: цена</th><th>вложено</th><th>итог</th></tr>' +
+    D.bets.map((b) => { const L = b.live; return `<tr><td>${fmtT(b.t)}</td><td>${(b.title || '').replace('Counter-Strike: ', '').replace(/ \(BO3\).*/, '')}</td><td>${b.team}</td>` +
       `<td>${c(b.fill10)}</td><td>${c(b.fill50)}</td><td>${c(b.fill100)}</td><td>${c(b.fill200)}</td><td>${c(b.fill500)}</td><td>${c(b.fill10_2m)}</td><td>${b.kind || ''}</td><td>${st[b.status] || b.status}</td>` +
-      `<td class="${b.pnl > 0 ? 'pos' : b.pnl < 0 ? 'neg' : ''}">${b.pnl != null ? money(b.pnl) : ''}</td></tr>`).join('');
+      `<td class="${b.pnl > 0 ? 'pos' : b.pnl < 0 ? 'neg' : ''}">${b.pnl != null ? money(b.pnl) : ''}</td>` +
+      (L ? `<td>${c(L.fill_price)}</td><td>${money(L.spent)}</td><td class="${L.pnl > 0 ? 'pos' : L.pnl < 0 ? 'neg' : ''}">${L.pnl != null ? money(L.pnl) : (st[L.status] || L.status)}</td>`
+         : '<td>—</td><td>—</td><td>—</td>') + '</tr>'; }).join('');
+  const LS = D.live;
+  $('live-sum').textContent = LS ? `Живой бот на настоящие деньги: ставок ${LS.n} (закрыто ${LS.closed}, выиграно ${LS.wins}, открыто ${LS.open}), вложено ${money(LS.spent)}, итог по закрытым ${money(LS.pnl)}. Сверяйте с кабинетом Polymarket: матч и цена те же.` : '';
   $('foot-l').textContent = 'Обновлено ' + new Date(D.generated).toLocaleString('ru-RU', { timeZone: 'Asia/Tbilisi' });
 }
 
