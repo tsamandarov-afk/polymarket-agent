@@ -201,7 +201,7 @@
     </div>
     <div class="brand">
       <h1>ОТКАТ <span>/</span> <em><span id="tf-venue">POLYMARKET</span> · <span class="tf-n">15</span> МИНУТ</em></h1>
-      <p><span id="tf-coins">6</span> монет без ZEC · вход до 55¢ · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
+      <p><span id="tf-coins">6</span> монет<span id="tf-note"> без ZEC · вход до 55¢</span> · свечи <span class="tf-n">15</span>м · RSI 4 + Боллинджер %B + ATR · ставка на следующую свечу</p>
     </div>
     <div class="hdr-right">
       <span class="pill"><i class="dot"></i>наблюдение · без реальных денег</span>
@@ -295,7 +295,7 @@
     </section>
   </div>
 
-  <section class="panel p-red" hidden>
+  <section class="panel p-red" id="sec-protect" hidden>
     <div class="ph"><span class="n">08</span>Защиты от обвала<span class="chip" style="color:var(--red)">БЭКТЕСТ С 2023 · $100 НА СТАВКУ</span></div>
     <div class="pb">
       <p class="muted" style="margin:0;font-size:10px;line-height:1.6">Главный риск стратегии — сильный обвал или разгон: она раз за разом ставит против движения, и сигнал загорается сразу по всем монетам (1–2 декабря 2025: −$4 500 за два дня). Здесь та же история, прогнанная с тремя защитами по отдельности и вместе. Нажмите на вариант, чтобы скрыть или показать его кривую.</p>
@@ -306,7 +306,7 @@
     </div>
   </section>
 
-  <div class="ledger-h">Шесть монет · что видит агент<span>нажмите на монету — график покажет её сигналы</span></div>
+  <div class="ledger-h"><span id="coins-h">Шесть монет</span> · что видит агент<span>нажмите на монету — график покажет её сигналы</span></div>
   <div class="coins" id="coins"></div>
 
   <section class="panel">
@@ -594,7 +594,7 @@ function render() {
     const [t, cl] = stTxt[b.status] || [b.status, 'faint'];
     const res = b.pnl != null ? `${b.pnl >= 0 ? '+' : '−'}$${Math.abs(b.pnl).toFixed(2)}` : t;
     const tags = b.v ? (b.v.base === false ? '<span class="faint">только подбор</span> ' : '') +
-      [].filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
+      (TF === 'kalshi15' ? ['cap2', 'trend', 'cap2_trend', 'opt_a', 'opt_b'] : []).filter((k) => b.v[k]).map((k) => `<span style="color:${VCOL[k]}" title="${(D.live_variants.find((x) => x.key === k) || {}).name}">●</span>`).join('') : '';
     const f100 = b.fill100 ? ` · $100 по ${(b.fill100 * 100).toFixed(1)}¢` : b.book_usd != null ? ` · $100 не купить (в книге $${b.book_usd.toFixed(0)})` : '';
     return `<div class="row"><time>${fmtT(b.t)}</time><b>${b.coin}</b><span class="muted" title="лучшая цена ${b.ask5 ? (b.ask5 * 100).toFixed(1) + '¢' : '—'}, через минуту ${b.ask60 ? (b.ask60 * 100).toFixed(1) + '¢' : '—'}, записано через ${b.seen ?? '—'} с после открытия">${b.side === 'Up' ? 'вверх' : 'вниз'} · $10 по ${b.ask ? (b.ask * 100).toFixed(1) + '¢' : '—'}${f100} ${tags}</span><span class="${cl}">${res}</span></div>`;
   }).join('') : `<div class="empty">Агент следит за закрытием каждой ${TFC[TF].n}-минутной свечи. При сигнале он записывает реальную цену доли на ${TFC[TF].venue === 'KALSHI' ? 'Kalshi' : 'Polymarket'} и итог рынка. В среднем по ${COINS.length} монетам — около ${TFC[TF].sigDay} сигналов в сутки.</div>`;
@@ -615,6 +615,7 @@ function render() {
   }).join('');
   $('r-chip').textContent = near ? `${near} У ПОРОГА` : 'ДО СИГНАЛА';
   coinsRender();
+  $('sec-protect').hidden = TF !== 'kalshi15';   // Polymarket sections show the single variant only; Kalshi keeps all
   renderVariants();
   $('foot-l').textContent = `Срез агента: ${new Date(D.generated).toLocaleString('ru-RU')} · свечи Binance, рынки ${D.venue || 'Polymarket'}` +
     (D.fee_note ? ` · ${D.fee_note}` : '');
@@ -712,6 +713,8 @@ function setTF(tf) {
   setCoin(cur);
   $('tf-venue').textContent = TFC[tf].venue;
   $('tf-coins').textContent = COINS.length;
+  $('tf-note').hidden = TF === 'kalshi15';
+  $('coins-h').textContent = TF === 'kalshi15' ? 'Двенадцать монет' : 'Шесть монет';
   document.querySelectorAll('.tfb').forEach((b) => { b.classList.toggle('on', b.dataset.tf === tf); b.setAttribute('aria-pressed', b.dataset.tf === tf); });
   document.querySelectorAll('.tf-n').forEach((s) => { s.textContent = TFC[tf].n; });
   $('heat-chip').textContent = `% ОТ $10 000 · ОБНОВЛЯЕТСЯ КАЖДЫЕ ${TFC[tf].n} МИН`;
