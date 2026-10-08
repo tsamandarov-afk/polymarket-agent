@@ -714,6 +714,7 @@ function setTF(tf) {
   $('tf-venue').textContent = TFC[tf].venue;
   $('tf-coins').textContent = COINS.length;
   $('tf-note').hidden = TF === 'kalshi15';
+  $('tf-note').textContent = tf === '5m' ? ' без ZEC · вход до 90¢' : ' без ZEC · вход до 55¢';
   $('coins-h').textContent = TF === 'kalshi15' ? 'Двенадцать монет' : 'Шесть монет';
   document.querySelectorAll('.tfb').forEach((b) => { b.classList.toggle('on', b.dataset.tf === tf); b.setAttribute('aria-pressed', b.dataset.tf === tf); });
   document.querySelectorAll('.tf-n').forEach((s) => { s.textContent = TFC[tf].n; });
