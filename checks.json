@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09T08:46:31.513780+00:00",
+ "generated": "2026-10-09T09:01:33.942451+00:00",
  "ok": 25,
  "total": 34,
  "results": [
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-09T08:46 UTC"
+   "detail": "обновлено 2026-10-09T09:01 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-09T08:45 UTC"
+   "detail": "обновлено 2026-10-09T09:00 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -175,7 +175,7 @@
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 27.8, %B 0.127"
+   "detail": "SOL RSI 62.2, %B 0.783"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 28.0, %B -0.032"
+   "detail": "SOL RSI 84.1, %B 0.853"
   },
   {
    "group": "Polymarket 5m",
