@@ -1,7 +1,7 @@
 {
- "generated": "2026-10-15T12:33:58.938163+00:00",
- "ok": 21,
- "total": 32,
+ "generated": "2026-10-15T12:50:57.159758+00:00",
+ "ok": 25,
+ "total": 34,
  "results": [
   {
    "group": "Общее",
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-15T12:31 UTC"
+   "detail": "обновлено 2026-10-15T12:46 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-15T12:32 UTC"
+   "detail": "обновлено 2026-10-15T12:50 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -174,14 +174,26 @@
   {
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
-   "ok": false,
-   "detail": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
+   "ok": true,
+   "detail": "SOL RSI 29.9, %B -0.022"
+  },
+  {
+   "group": "Polymarket 15m",
+   "name": "Других стратегий в расчёте нет",
+   "ok": true,
+   "detail": "подборов (opt_a/opt_b) нет"
   },
   {
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
-   "ok": false,
-   "detail": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
+   "ok": true,
+   "detail": "SOL RSI 37.9, %B -0.089"
+  },
+  {
+   "group": "Polymarket 5m",
+   "name": "Других стратегий в расчёте нет",
+   "ok": true,
+   "detail": "подборов (opt_a/opt_b) нет"
   },
   {
    "group": "Kalshi (не менялся)",
