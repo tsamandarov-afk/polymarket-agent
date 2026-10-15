@@ -1,7 +1,7 @@
 {
- "generated": "2026-10-15T10:06:52.656051+00:00",
- "ok": 23,
- "total": 33,
+ "generated": "2026-10-15T12:29:17.056780+00:00",
+ "ok": 21,
+ "total": 32,
  "results": [
   {
    "group": "Общее",
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-15T09:46 UTC"
+   "detail": "обновлено 2026-10-15T12:27 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-15T09:45 UTC"
+   "detail": "обновлено 2026-10-15T12:26 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -174,14 +174,8 @@
   {
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
-   "ok": true,
-   "detail": "SOL RSI 39.1, %B 0.552"
-  },
-  {
-   "group": "Polymarket 15m",
-   "name": "Других стратегий в расчёте нет",
-   "ok": true,
-   "detail": "подборов (opt_a/opt_b) нет"
+   "ok": false,
+   "detail": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)>"
   },
   {
    "group": "Polymarket 5m",
