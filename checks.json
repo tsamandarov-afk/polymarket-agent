@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-18T15:16:31.405627+00:00",
- "ok": 25,
+ "generated": "2026-10-18T18:17:31.774553+00:00",
+ "ok": 24,
  "total": 34,
  "results": [
   {
@@ -49,7 +49,7 @@
    "group": "Polymarket 15m",
    "name": "Деньги: прибыль = доли − ставка − комиссия",
    "ok": false,
-   "detail": "проверено: 153"
+   "detail": "проверено: 154"
   },
   {
    "group": "Polymarket 15m",
@@ -61,7 +61,7 @@
    "group": "Polymarket 15m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "139 из 150 (92.7%)"
+   "detail": "140 из 151 (92.7%)"
   },
   {
    "group": "Polymarket 15m",
@@ -85,25 +85,25 @@
    "group": "Polymarket 15m",
    "name": "Итоги сайта = вариант «≤ 53¢»",
    "ok": false,
-   "detail": "153 и 141"
+   "detail": "154 и 142"
   },
   {
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-18T15:16 UTC"
+   "detail": "обновлено 2026-10-18T17:43 UTC"
   },
   {
    "group": "Polymarket 15m",
    "name": "Доля угаданных не ниже безубытка",
    "ok": false,
-   "detail": "угадано 45.8% из 153, средняя цена входа 0.518"
+   "detail": "угадано 46.1% из 154, средняя цена входа 0.518"
   },
   {
    "group": "Polymarket 5m",
    "name": "Новые ставки без ZEC",
    "ok": true,
-   "detail": "новых ставок: 122"
+   "detail": "новых ставок: 124"
   },
   {
    "group": "Polymarket 5m",
@@ -115,13 +115,13 @@
    "group": "Polymarket 5m",
    "name": "Нет слишком дорогих ставок в итогах",
    "ok": false,
-   "detail": "в итогах 247 ставок"
+   "detail": "в итогах 249 ставок"
   },
   {
    "group": "Polymarket 5m",
    "name": "Деньги: прибыль = доли − ставка − комиссия",
    "ok": true,
-   "detail": "проверено: 243"
+   "detail": "проверено: 244"
   },
   {
    "group": "Polymarket 5m",
@@ -133,7 +133,7 @@
    "group": "Polymarket 5m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "217 из 240 (90.4%)"
+   "detail": "218 из 241 (90.5%)"
   },
   {
    "group": "Polymarket 5m",
@@ -157,25 +157,25 @@
    "group": "Polymarket 5m",
    "name": "Итоги сайта = вариант «≤ 55¢»",
    "ok": true,
-   "detail": "243 и 243"
+   "detail": "244 и 244"
   },
   {
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
-   "ok": true,
-   "detail": "обновлено 2026-10-18T15:15 UTC"
+   "ok": false,
+   "detail": "обновлено 2026-10-18T18:00 UTC"
   },
   {
    "group": "Polymarket 5m",
    "name": "Доля угаданных не ниже безубытка",
    "ok": false,
-   "detail": "угадано 48.1% из 243, средняя цена входа 0.474"
+   "detail": "угадано 48.0% из 244, средняя цена входа 0.474"
   },
   {
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 25.0, %B -0.084"
+   "detail": "SOL RSI 60.1, %B 0.377"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 44.2, %B 0.193"
+   "detail": "SOL RSI 51.7, %B 0.662"
   },
   {
    "group": "Polymarket 5m",
