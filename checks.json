@@ -1,7 +1,7 @@
 {
- "generated": "2026-10-20T16:46:43.879009+00:00",
- "ok": 24,
- "total": 34,
+ "generated": "2026-10-21T09:20:14.065573+00:00",
+ "ok": 19,
+ "total": 32,
  "results": [
   {
    "group": "Общее",
@@ -90,8 +90,8 @@
   {
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
-   "ok": true,
-   "detail": "обновлено 2026-10-20T16:35 UTC"
+   "ok": false,
+   "detail": "обновлено 2026-10-20T16:46 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -174,26 +174,14 @@
   {
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
-   "ok": true,
-   "detail": "SOL RSI 62.6, %B 0.755"
-  },
-  {
-   "group": "Polymarket 15m",
-   "name": "Других стратегий в расчёте нет",
-   "ok": true,
-   "detail": "подборов (opt_a/opt_b) нет"
+   "ok": false,
+   "detail": "<urlopen error [Errno 8] nodename nor servname provided, or not known>"
   },
   {
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
-   "ok": true,
-   "detail": "SOL RSI 74.9, %B 0.716"
-  },
-  {
-   "group": "Polymarket 5m",
-   "name": "Других стратегий в расчёте нет",
-   "ok": true,
-   "detail": "подборов (opt_a/opt_b) нет"
+   "ok": false,
+   "detail": "<urlopen error [Errno 8] nodename nor servname provided, or not known>"
   },
   {
    "group": "Kalshi (не менялся)",
