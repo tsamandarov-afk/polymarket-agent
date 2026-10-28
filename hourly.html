@@ -270,7 +270,7 @@ function render(D) {
     '<tr><th colspan="4">по минуте часа (порог 0.08)</th></tr>' +
     ['10', '20', '30', '40', '50'].map((k) => { const g = (D.bycheck || {})[k] || { n: 0 }; return `<tr><td>${k}-я минута</td><td class="${g.roi > 0 ? 'pos' : g.roi < 0 ? 'neg' : ''}">${g.n ? pc(g.roi) : '—'}</td><td>${g.n ? g.wins + ' / ' + g.n : '—'}</td><td>${g.n ? money(g.pnl) : '—'}</td></tr>`; }).join('');
   $('tbl').innerHTML = '<tr><th>час · минута</th><th>модель</th><th>рынок (mid)</th><th>разница</th><th>сторона</th><th>цена $50</th><th>цена $100</th><th>спред</th><th>сделка</th><th>итог часа</th><th>P&L</th></tr>' +
-    D.rows.map((r) => `<tr><td>${fmtT(r.T)} · ${r.t / 60}</td><td>${(r.q * 100).toFixed(1)}%</td><td>${(r.mid * 100).toFixed(1)}¢</td><td>${(r.edge > 0 ? '+' : '') + (r.edge * 100).toFixed(1)}</td>` +
+    D.rows.map((r) => `<tr><td>${fmtT(r.T)} · ${r.t / 60}${r.restored ? ' <span class="faint" title="Восстановлено по истории цен после остановки наблюдателя: цена приблизительная, не записана в реальном времени">⟲ по истории</span>' : ''}</td><td>${(r.q * 100).toFixed(1)}%</td><td>${(r.mid * 100).toFixed(1)}¢</td><td>${(r.edge > 0 ? '+' : '') + (r.edge * 100).toFixed(1)}</td>` +
       `<td>${r.side === 'Up' ? 'вверх' : 'вниз'}</td><td>${c(r.f50)}</td><td>${c(r.f100)}</td><td>${r.spread != null ? Math.round(r.spread * 100) + '¢' : '—'}</td>` +
       `<td>${r.trade ? 'да' : 'нет (в часе уже была)'}</td><td>${r.up == null ? 'идёт' : r.up ? 'вверх' : 'вниз'}</td>` +
       `<td class="${r.pnl > 0 ? 'pos' : r.pnl < 0 ? 'neg' : ''}">${r.trade && r.pnl != null ? money(r.pnl) : ''}</td></tr>`).join('');
