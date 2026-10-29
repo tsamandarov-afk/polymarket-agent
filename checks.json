@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29T13:48:40.433268+00:00",
+ "generated": "2026-10-29T13:52:59.292913+00:00",
  "ok": 25,
  "total": 34,
  "results": [
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-10-29T13:46 UTC"
+   "detail": "обновлено 2026-10-29T13:48 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 34.1, %B 0.145"
+   "detail": "SOL RSI 46.0, %B 0.357"
   },
   {
    "group": "Polymarket 5m",
