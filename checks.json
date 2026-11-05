@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05T14:31:41.681381+00:00",
+ "generated": "2026-11-05T14:54:47.245437+00:00",
  "ok": 25,
  "total": 34,
  "results": [
@@ -31,7 +31,7 @@
    "group": "Polymarket 15m",
    "name": "Новые ставки без ZEC",
    "ok": true,
-   "detail": "новых ставок: 228"
+   "detail": "новых ставок: 231"
   },
   {
    "group": "Polymarket 15m",
@@ -43,13 +43,13 @@
    "group": "Polymarket 15m",
    "name": "Нет слишком дорогих ставок в итогах",
    "ok": false,
-   "detail": "в итогах 291 ставок"
+   "detail": "в итогах 294 ставок"
   },
   {
    "group": "Polymarket 15m",
    "name": "Деньги: прибыль = доли − ставка − комиссия",
    "ok": false,
-   "detail": "проверено: 220"
+   "detail": "проверено: 221"
   },
   {
    "group": "Polymarket 15m",
@@ -61,7 +61,7 @@
    "group": "Polymarket 15m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "201 из 217 (92.6%)"
+   "detail": "202 из 218 (92.7%)"
   },
   {
    "group": "Polymarket 15m",
@@ -85,25 +85,25 @@
    "group": "Polymarket 15m",
    "name": "Итоги сайта = вариант «≤ 53¢»",
    "ok": false,
-   "detail": "220 и 208"
+   "detail": "221 и 209"
   },
   {
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-05T14:31 UTC"
+   "detail": "обновлено 2026-11-05T14:53 UTC"
   },
   {
    "group": "Polymarket 15m",
    "name": "Доля угаданных не ниже безубытка",
    "ok": false,
-   "detail": "угадано 46.4% из 220, средняя цена входа 0.517"
+   "detail": "угадано 46.6% из 221, средняя цена входа 0.517"
   },
   {
    "group": "Polymarket 5m",
    "name": "Новые ставки без ZEC",
    "ok": true,
-   "detail": "новых ставок: 217"
+   "detail": "новых ставок: 218"
   },
   {
    "group": "Polymarket 5m",
@@ -115,7 +115,7 @@
    "group": "Polymarket 5m",
    "name": "Нет слишком дорогих ставок в итогах",
    "ok": false,
-   "detail": "в итогах 342 ставок"
+   "detail": "в итогах 343 ставок"
   },
   {
    "group": "Polymarket 5m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-05T14:30 UTC"
+   "detail": "обновлено 2026-11-05T14:54 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -175,7 +175,7 @@
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 41.1, %B 0.053"
+   "detail": "SOL RSI 11.3, %B -0.442"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 59.9, %B 0.445"
+   "detail": "SOL RSI 5.1, %B -0.608"
   },
   {
    "group": "Polymarket 5m",
