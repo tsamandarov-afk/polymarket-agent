@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-08T16:02:01.746768+00:00",
- "ok": 21,
+ "generated": "2026-11-09T01:05:35.488265+00:00",
+ "ok": 20,
  "total": 32,
  "results": [
   {
@@ -90,8 +90,8 @@
   {
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
-   "ok": true,
-   "detail": "обновлено 2026-11-08T16:01 UTC"
+   "ok": false,
+   "detail": "обновлено 2026-11-08T23:50 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-08T16:00 UTC"
+   "detail": "обновлено 2026-11-09T00:59 UTC"
   },
   {
    "group": "Polymarket 5m",
