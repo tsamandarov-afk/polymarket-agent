@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-13T08:15:40.895902+00:00",
- "ok": 25,
+ "generated": "2026-11-13T08:25:45.315853+00:00",
+ "ok": 24,
  "total": 34,
  "results": [
   {
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-13T08:14 UTC"
+   "detail": "обновлено 2026-11-13T08:24 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -162,7 +162,7 @@
   {
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
-   "ok": true,
+   "ok": false,
    "detail": "обновлено 2026-11-13T08:06 UTC"
   },
   {
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 40.1, %B 0.23"
+   "detail": "SOL RSI 28.6, %B -0.025"
   },
   {
    "group": "Polymarket 5m",
