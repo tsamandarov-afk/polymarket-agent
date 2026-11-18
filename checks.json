@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-18T17:01:41.721875+00:00",
+ "generated": "2026-11-18T17:16:20.062350+00:00",
  "ok": 25,
  "total": 34,
  "results": [
@@ -49,7 +49,7 @@
    "group": "Polymarket 15m",
    "name": "Деньги: прибыль = доли − ставка − комиссия",
    "ok": false,
-   "detail": "проверено: 244"
+   "detail": "проверено: 247"
   },
   {
    "group": "Polymarket 15m",
@@ -61,7 +61,7 @@
    "group": "Polymarket 15m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "223 из 241 (92.5%)"
+   "detail": "226 из 244 (92.6%)"
   },
   {
    "group": "Polymarket 15m",
@@ -85,19 +85,19 @@
    "group": "Polymarket 15m",
    "name": "Итоги сайта = вариант «≤ 53¢»",
    "ok": false,
-   "detail": "244 и 232"
+   "detail": "247 и 235"
   },
   {
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-18T17:01 UTC"
+   "detail": "обновлено 2026-11-18T17:16 UTC"
   },
   {
    "group": "Polymarket 15m",
    "name": "Доля угаданных не ниже безубытка",
    "ok": false,
-   "detail": "угадано 45.5% из 244, средняя цена входа 0.517"
+   "detail": "угадано 46.2% из 247, средняя цена входа 0.517"
   },
   {
    "group": "Polymarket 5m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-18T17:00 UTC"
+   "detail": "обновлено 2026-11-18T17:15 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -175,7 +175,7 @@
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 36.5, %B -0.143"
+   "detail": "SOL RSI 38.3, %B -0.058"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 62.0, %B 0.255"
+   "detail": "SOL RSI 48.7, %B 0.325"
   },
   {
    "group": "Polymarket 5m",
