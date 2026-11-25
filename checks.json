@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25T20:14:34.934422+00:00",
+ "generated": "2026-11-25T21:01:00.614804+00:00",
  "ok": 24,
  "total": 34,
  "results": [
@@ -61,7 +61,7 @@
    "group": "Polymarket 15m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "234 из 255 (91.8%)"
+   "detail": "237 из 258 (91.9%)"
   },
   {
    "group": "Polymarket 15m",
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-25T20:14 UTC"
+   "detail": "обновлено 2026-11-25T20:31 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -163,7 +163,7 @@
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
    "ok": false,
-   "detail": "обновлено 2026-11-25T18:07 UTC"
+   "detail": "обновлено 2026-11-25T20:31 UTC"
   },
   {
    "group": "Polymarket 5m",
@@ -175,7 +175,7 @@
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 64.3, %B 0.958"
+   "detail": "SOL RSI 51.8, %B 0.843"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 50.5, %B 0.725"
+   "detail": "SOL RSI 78.1, %B 0.832"
   },
   {
    "group": "Polymarket 5m",
