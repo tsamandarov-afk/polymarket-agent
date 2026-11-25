@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-24T18:16:20.170033+00:00",
- "ok": 25,
+ "generated": "2026-11-25T03:07:53.406275+00:00",
+ "ok": 24,
  "total": 34,
  "results": [
   {
@@ -91,7 +91,7 @@
    "group": "Polymarket 15m",
    "name": "Свежие данные на сайте",
    "ok": true,
-   "detail": "обновлено 2026-11-24T18:16 UTC"
+   "detail": "обновлено 2026-11-25T03:07 UTC"
   },
   {
    "group": "Polymarket 15m",
@@ -103,7 +103,7 @@
    "group": "Polymarket 5m",
    "name": "Новые ставки без ZEC",
    "ok": true,
-   "detail": "новых ставок: 354"
+   "detail": "новых ставок: 355"
   },
   {
    "group": "Polymarket 5m",
@@ -115,13 +115,13 @@
    "group": "Polymarket 5m",
    "name": "Нет слишком дорогих ставок в итогах",
    "ok": false,
-   "detail": "в итогах 479 ставок"
+   "detail": "в итогах 480 ставок"
   },
   {
    "group": "Polymarket 5m",
    "name": "Деньги: прибыль = доли − ставка − комиссия",
    "ok": true,
-   "detail": "проверено: 441"
+   "detail": "проверено: 442"
   },
   {
    "group": "Polymarket 5m",
@@ -133,7 +133,7 @@
    "group": "Polymarket 5m",
    "name": "Исход Polymarket совпадает со свечой Binance",
    "ok": true,
-   "detail": "361 из 398 (90.7%)"
+   "detail": "362 из 399 (90.7%)"
   },
   {
    "group": "Polymarket 5m",
@@ -157,25 +157,25 @@
    "group": "Polymarket 5m",
    "name": "Итоги сайта = вариант «≤ 55¢»",
    "ok": true,
-   "detail": "441 и 441"
+   "detail": "442 и 442"
   },
   {
    "group": "Polymarket 5m",
    "name": "Свежие данные на сайте",
-   "ok": true,
-   "detail": "обновлено 2026-11-24T18:15 UTC"
+   "ok": false,
+   "detail": "обновлено 2026-11-25T00:09 UTC"
   },
   {
    "group": "Polymarket 5m",
    "name": "Доля угаданных не ниже безубытка",
    "ok": false,
-   "detail": "угадано 46.9% из 441, средняя цена входа 0.483"
+   "detail": "угадано 47.1% из 442, средняя цена входа 0.483"
   },
   {
    "group": "Polymarket 15m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 84.0, %B 0.615"
+   "detail": "SOL RSI 33.4, %B -0.062"
   },
   {
    "group": "Polymarket 15m",
@@ -187,7 +187,7 @@
    "group": "Polymarket 5m",
    "name": "Расчёт сигнала на живых свечах",
    "ok": true,
-   "detail": "SOL RSI 67.2, %B 0.992"
+   "detail": "SOL RSI 35.8, %B 0.08"
   },
   {
    "group": "Polymarket 5m",
